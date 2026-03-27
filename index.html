@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siber Güvenlik Sitesi</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+    background: black;
+    color: #00ff00;
+    overflow-x: hidden;
+  }
+  canvas#matrix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+  section {
+    padding: 100px 20px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+  h1, h2 {
+    color: #00ff00;
+  }
+  nav {
+    background-color: rgba(0,0,0,0.8);
+    z-index: 2;
+  }
+  footer {
+    background-color: rgba(0,0,0,0.8);
+    text-align: center;
+    padding: 20px;
+    z-index: 1;
+    position: relative;
+  }
+  a.nav-link, a.instagram-link {
+    color: #00ff00 !important;
+  }
+  table tbody tr td {
+    color: #aaffaa !important;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">SiberSite</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#sozluk">Sözlük</a></li>
+        <li class="nav-item"><a class="nav-link" href="#bilinc">Bilinçlendirme</a></li>
+        <li class="nav-item"><a class="nav-link" href="#onlem">Tehdit Önlemi</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Siber Sözlük -->
+<section id="sozluk">
+  <div class="container" style="position: relative; z-index: 1;">
+    <h1 class="mb-4">Siber Sözlük</h1>
+    <div class="table-responsive">
+      <table class="table table-dark table-striped" style="background: rgba(0,0,0,0.6);">
+        <thead>
+          <tr>
+            <th>Terim</th>
+            <th>Açıklama</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 50 terimli tablo -->
+          <tr><td>Malware</td><td>Kötü amaçlı yazılım.</td></tr>
+          <tr><td>Phishing</td><td>Kimlik avı saldırısı.</td></tr>
+          <tr><td>Firewall</td><td>Ağ trafiğini filtreleyen güvenlik duvarı.</td></tr>
+          <tr><td>Spyware</td><td>Casus yazılım, bilgileri toplar.</td></tr>
+          <tr><td>Adware</td><td>İstenmeyen reklam gösteren yazılım.</td></tr>
+          <tr><td>Ransomware</td><td>Dosyaları şifreleyen fidye yazılımı.</td></tr>
+          <tr><td>Trojan</td><td>Truva atı, zararlı yazılım gizler.</td></tr>
+          <tr><td>Worm</td><td>Kendini çoğaltan zararlı yazılım.</td></tr>
+          <tr><td>Botnet</td><td>Kontrol altındaki cihaz ağı.</td></tr>
+          <tr><td>Rootkit</td><td>Sistem kontrolünü gizlice ele geçirir.</td></tr>
+          <tr><td>Keylogger</td><td>Tuş vuruşlarını kaydeden yazılım.</td></tr>
+          <tr><td>Brute Force</td><td>Şifre kırma yöntemi.</td></tr>
+          <tr><td>DDoS</td><td>Dağıtılmış hizmet engelleme saldırısı.</td></tr>
+          <tr><td>DoS</td><td>Hizmet engelleme saldırısı.</td></tr>
+          <tr><td>SQL Injection</td><td>Veritabanı sorgusu ile saldırı.</td></tr>
+          <tr><td>XSS</td><td>Cross-site scripting saldırısı.</td></tr>
+          <tr><td>CSRF</td><td>Cross-site request forgery saldırısı.</td></tr>
+          <tr><td>HTTPS</td><td>Güvenli HTTP protokolü.</td></tr>
+          <tr><td>VPN</td><td>Sanal özel ağ.</td></tr>
+          <tr><td>2FA</td><td>İki faktörlü doğrulama.</td></tr>
+          <tr><td>Encryption</td><td>Verileri şifreleme.</td></tr>
+          <tr><td>Decryption</td><td>Şifreli veriyi çözme.</td></tr>
+          <tr><td>Hashing</td><td>Veri özetleme yöntemi.</td></tr>
+          <tr><td>Salt</td><td>Hash güvenliği için ek veri.</td></tr>
+          <tr><td>Pharming</td><td>Sahte web sitesi yönlendirmesi.</td></tr>
+          <tr><td>Man-in-the-Middle</td><td>Ara konum saldırısı.</td></tr>
+          <tr><td>Zero-Day</td><td>Henüz bilinmeyen güvenlik açığı.</td></tr>
+          <tr><td>Exploit</td><td>Açığı kullanma yöntemi.</td></tr>
+          <tr><td>Penetration Test</td><td>Sızma testi.</td></tr>
+          <tr><td>Vulnerability</td><td>Güvenlik açığı.</td></tr>
+          <tr><td>Patch</td><td>Güvenlik güncellemesi.</td></tr>
+          <tr><td>Spam</td><td>İstenmeyen e-posta.</td></tr>
+          <tr><td>Malicious Link</td><td>Zararlı bağlantı.</td></tr>
+          <tr><td>Zero Trust</td><td>Hiçbir şeye otomatik güvenilmeyen model.</td></tr>
+          <tr><td>Sandbox</td><td>İzole test ortamı.</td></tr>
+          <tr><td>Incident</td><td>Güvenlik olayı.</td></tr>
+          <tr><td>Threat</td><td>Tehdit.</td></tr>
+          <tr><td>Risk</td><td>Potansiyel zarar olasılığı.</td></tr>
+          <tr><td>Exploit Kit</td><td>Hazır saldırı aracı.</td></tr>
+          <tr><td>Patch Management</td><td>Güncelleme yönetimi.</td></tr>
+          <tr><td>Access Control</td><td>Erişim kontrolü.</td></tr>
+          <tr><td>Authentication</td><td>Kimlik doğrulama.</td></tr>
+          <tr><td>Authorization</td><td>Yetkilendirme.</td></tr>
+          <tr><td>Backdoor</td><td>Gizli giriş yolu.</td></tr>
+          <tr><td>Data Breach</td><td>Veri sızıntısı.</td></tr>
+          <tr><td>Information Security</td><td>Bilgi güvenliği.</td></tr>
+          <tr><td>Social Engineering</td><td>İnsan odaklı saldırı.</td></tr>
+          <tr><td>Phishing Email</td><td>Kimlik avı e-postası.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Siber Bilinçlendirme -->
+<section id="bilinc">
+  <div class="container" style="position: relative; z-index: 1;">
+    <h2 class="mb-4">Siber Bilinçlendirme</h2>
+    <div class="table-responsive">
+      <table class="table table-dark table-striped" style="background: rgba(0,0,0,0.6);">
+        <thead>
+          <tr>
+            <th>Konsept</th>
+            <th>Açıklama</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Şifreler</td><td>Güçlü ve benzersiz olmalı, 2FA kullanılmalı.</td></tr>
+          <tr><td>E-posta ve Mesajlar</td><td>Şüpheli bağlantılara tıklamayın.</td></tr>
+          <tr><td>Güncellemeler</td><td>Tarayıcı ve işletim sistemi güncel olmalı.</td></tr>
+          <tr><td>Public Wi-Fi</td><td>VPN kullanın ve güvenlik risklerini bilin.</td></tr>
+          <tr><td>Kişisel Veriler</td><td>Paylaşmadan önce dikkatlice düşünün.</td></tr>
+          <tr><td>Anti-Virüs</td><td>Güncel tutun ve düzenli tarama yapın.</td></tr>
+          <tr><td>Yazılım Kaynakları</td><td>Her zaman güvenilir kaynaklardan indirin.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Siber Tehdit Önlemi -->
+<section id="onlem">
+  <div class="container" style="position: relative; z-index: 1;">
+    <h2 class="mb-4">Siber Tehdit Önlemi</h2>
+    <div class="table-responsive">
+      <table class="table table-dark table-striped" style="background: rgba(0,0,0,0.6);">
+        <thead>
+          <tr>
+            <th>Önlem</th>
+            <th>Açıklama</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Antivirüs</td><td>Kurun ve güncel tutun.</td></tr>
+          <tr><td>Şüpheli Linkler</td><td>Açmadan önce dikkatli olun.</td></tr>
+          <tr><td>Veri Yedekleme</td><td>Dosyalarınızı düzenli yedekleyin.</td></tr>
+          <tr><td>2FA</td><td>Hesaplarınızı iki faktörlü doğrulama ile koruyun.</td></tr>
+          <tr><td>Wi-Fi</td><td>Güvenilmeyen ağlardan kaçının.</td></tr>
+          <tr><td>Güncellemeler</td><td>Sistem ve yazılımları aksatmayın.</td></tr>
+          <tr><td>Politikalar</td><td>Bilgi güvenliği politikalarına uyun.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2026 SiberSite | Tüm hakları saklıdır</p>
+  <p><a class="instagram-link" href="https://www.instagram.com/cyber_atu" target="_blank">Instagram: @cyber_atu</a></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Matrix JS -->
+<script>
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const letters = "0101010101";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+function draw() {
+  ctx.fillStyle = "rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#00ff00";
+  ctx.font = fontSize + "px monospace";
+  for(let i=0;i<drops.length;i++){
+    const text = letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    if(drops[i]*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
+    drops[i]++;
+  }
+}
+setInterval(draw,50);
+window.addEventListener('resize',()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
