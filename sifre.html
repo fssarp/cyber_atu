@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siber Güvenlik Sitesi - Şifre Analizi</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+    background: black;
+    color: #00ff00;
+    overflow-x: hidden;
+  }
+  canvas#matrix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+  section {
+    padding: 100px 20px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+  h1, h2 {
+    color: #00ff00;
+  }
+  nav {
+    background-color: rgba(0,0,0,0.8);
+    z-index: 2;
+  }
+  footer {
+    background-color: rgba(0,0,0,0.8);
+    text-align: center;
+    padding: 20px;
+    z-index: 1;
+    position: relative;
+  }
+  a.nav-link, a.instagram-link {
+    color: #00ff00 !important;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgba(0,0,0,0.8); border-bottom: 1px solid #003300;">
+  <div class="container">
+    <a class="navbar-brand" href="index.html" style="color: #00ff00; font-family: monospace; text-shadow: 0 0 5px #00ff00;">>_ Cyber ATU</a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="border-color: #00ff00;">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html" style="color: #00ff00 !important; border: 1px solid #00ff00; padding: 5px 15px !important; border-radius: 4px; font-family: monospace; background: rgba(0, 255, 0, 0.1);">
+            <span style="color: #fff;"></span> Ana Sayfa
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section id="sifre-testi" class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+  <div class="container" style="position: relative; z-index: 1; max-width: 600px;">
+    <div style="background: rgba(0,0,0,0.8); padding: 40px; border: 1px solid #00ff00; border-radius: 10px; box-shadow: 0 0 20px rgba(0,255,0,0.2);">
+      
+      <h2 class="mb-3" style="color: #00ff00; font-family: monospace;">>_ Şifre Gücü Analizi</h2>
+      
+      <p style="color: #aaffaa; font-family: monospace;">
+        Kullandığınız şifrenin siber saldırılara karşı ne kadar dayanıklı olduğunu test edin.<br>
+        <span style="color: #ff4444; font-size: 0.9rem;">[!] Girdiğiniz veriler hiçbir sunucuya gönderilmez, test sadece tarayıcınızda (lokal olarak) gerçekleşir.</span>
+      </p>
+      
+      <div class="mt-4">
+        <input type="password" id="passwordInput" class="form-control bg-dark" style="border: 1px solid #00ff00; color: #00ff00; font-family: monospace; font-size: 1.2rem; padding: 15px; box-shadow: inset 0 0 5px rgba(0,255,0,0.5);" placeholder="Test edilecek şifreyi girin..." onkeyup="checkPasswordStrength()">
+      </div>
+      
+      <div class="mt-4" id="strengthMessage" style="font-weight: bold; font-size: 1.1rem; min-height: 50px; font-family: monospace; padding: 10px; border-radius: 5px; background: rgba(0,0,0,0.5);">
+         <span style="color: #00ff00; opacity: 0.5;">_ Sistem şifre girişi bekliyor...</span>
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+    function checkPasswordStrength() {
+      const pwd = document.getElementById('passwordInput').value;
+      const msg = document.getElementById('strengthMessage');
+      const inputField = document.getElementById('passwordInput');
+      let strength = 0;
+      
+      if (pwd.length > 7) strength += 1;
+      if (pwd.match(/[a-z]+/)) strength += 1;
+      if (pwd.match(/[A-Z]+/)) strength += 1;
+      if (pwd.match(/[0-9]+/)) strength += 1;
+      if (pwd.match(/[$@#&!%*?+.-_]+/)) strength += 1;
+
+      if (pwd.length === 0) {
+        msg.innerHTML = '<span style="color: #00ff00; opacity: 0.5;">_ Sistem şifre girişi bekliyor...</span>';
+        inputField.style.borderColor = "#00ff00";
+        inputField.style.boxShadow = "inset 0 0 5px rgba(0,255,0,0.5)";
+      } else if (strength < 3) {
+        msg.innerHTML = '<span style="color: #ff4444;">[!] CRITICAL: Çok Zayıf! Kaba kuvvet (Brute Force) ile saniyeler içinde kırılabilir.</span>';
+        inputField.style.borderColor = "#ff4444";
+        inputField.style.boxShadow = "inset 0 0 10px rgba(255,68,68,0.5)";
+      } else if (strength === 3 || strength === 4) {
+        msg.innerHTML = '<span style="color: #ffbb33;">[-] WARNING: Orta Düzey. Fena değil ama özel karakter ve büyük/küçük harf kombinasyonunu artırmalısın.</span>';
+        inputField.style.borderColor = "#ffbb33";
+        inputField.style.boxShadow = "inset 0 0 10px rgba(255,187,51,0.5)";
+      } else {
+        msg.innerHTML = '<span style="color: #00ff00;">[+] SECURE: Çok Güçlü! Sistem güvende. Bu şifreyi kırmak asırlar sürer. 🛡️</span>';
+        inputField.style.borderColor = "#00ff00";
+        inputField.style.boxShadow = "inset 0 0 15px rgba(0,255,0,0.8)";
+      }
+    }
+  </script>
+</section>
