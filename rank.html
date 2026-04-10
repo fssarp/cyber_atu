@@ -23,33 +23,17 @@
     z-index: 0;
   }
 
-  /* HACKER FİGÜRÜ LAYER 1 */
-  #hacker-bg {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    color: rgba(0, 255, 0, 0.15);
-    font-size: 1.2vw;
-    line-height: 1.2;
-    pointer-events: none;
-    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-    white-space: pre;
-    text-align: center;
-  }
-
-  /* ANA İÇERİK LAYER 2 */
+  /* ANA İÇERİK LAYER 1 (Terminal artık kuru kafanın arkasında) */
   .container {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     text-align: center;
     margin-top: 80px;
   }
   
   /* TERMİNAL TASARIMI */
   .terminal-box {
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.7); /* Arkası daha net görünsün diye şeffaflığı artırdık */
     border: 2px solid #00ff00;
     border-radius: 10px;
     padding: 30px;
@@ -57,7 +41,6 @@
     margin: 0 auto;
     text-align: left;
     box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
-    backdrop-filter: blur(2px);
   }
   
   .terminal-header {
@@ -76,12 +59,14 @@
     margin-bottom: 10px;
     font-size: 1.2rem;
     transition: 0.2s;
+    position: relative;
+    z-index: 99999; /* Linklere tıklanabilsin diye en öne aldık */
   }
   
   .menu-list a:hover {
     text-shadow: 0 0 10px #00ff00;
-    padding-left: 10px;
-    background: rgba(0, 255, 0, 0.1);
+    padding-left: 10px; 
+    background: rgba(0, 255, 0, 0.2);
   }
 
   .terminal-input-row {
@@ -90,6 +75,8 @@
     margin-top: 30px;
     border-top: 1px solid #002200;
     padding-top: 15px;
+    position: relative;
+    z-index: 99999; /* İnputa tıklanabilsin diye */
   }
 
   #subTerminalInput {
@@ -119,42 +106,37 @@
     color: #00ff00;
     text-decoration: none;
     font-size: 1.1rem;
+    position: relative;
+    z-index: 99999;
   }
   
   .back-link:hover {
     text-shadow: 0 0 8px #00ff00;
   }
+
+  /* HACKER FİGÜRÜ LAYER 2 (EN ÖNDE) */
+  #hacker-bg {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Terminalin ÖNÜNE aldık */
+    color: rgba(0, 255, 0, 0.45); /* Parlaklık artırıldı */
+    font-size: 1.4vw;
+    line-height: 1.2;
+    pointer-events: none; /* Mouse tıklamaları içinden geçip terminale ulaşsın */
+    text-shadow: 0 0 15px #00ff00;
+    white-space: pre;
+    text-align: center;
+  }
+
 </style>
 </head>
 <body>
 
 <canvas id="matrix"></canvas>
 
-<div id="hacker-bg">
-        _,.-------.,_
-    ,;~'             '~;,
-  ,;                     ;,
- ;                         ;
-,'                         ',
-,;                           ;,
-; ;      .           .      ; ;
-| ;   ______       ______   ; |
-|  `/~"     ~" . "~     "~\'  |
-|  ~  ,-~~~^~, | ,~^~~~-,  ~  |
- |   |        }:{        |   |
- |   l       / | \       !   |
- .~  (__,.--" .^. "--.,__)  ~.
- |     ---;' / | \ `;---     |
-  \__.       \/^\/       .__/
-   V| \                 / |V
-    | |T~\___!___!___/~T| |
-    | |`IIII_I_I_I_IIII'| |
-    |  \,III I I I III,/  |
-     \   `~~~~~~~~~~'    /
-       \   .       .   /
-         \.    ^    ./
-           ^~~~^~~~^
-</div>
+<div id="hacker-bg"></div>
 
 <div class="container">
   <div class="terminal-box">
@@ -185,13 +167,51 @@
 </div>
 
 <script>
+  // KURU KAFA HIZLI ÇİZİM (TYPEWRITER) EFEKTİ
+  const asciiArt = `        _,.-------.,_
+    ,;~'             '~;,
+  ,;                     ;,
+ ;                         ;
+,'                         ',
+,;                           ;,
+; ;      .           .      ; ;
+| ;   ______       ______   ; |
+|  \`/~"     ~" . "~     "~\\'  |
+|  ~  ,-~~~^~, | ,~^~~~-,  ~  |
+ |   |        }:{        |   |
+ |   l       / | \\       !   |
+ .~  (__,.--" .^. "--.,__)  ~.
+ |     ---;' / | \\ \`;---     |
+  \\__.       \\/^\\/       .__/
+   V| \\                 / |V
+    | |T~\\___!___!___/~T| |
+    | |\`IIII_I_I_I_IIII'| |
+    |  \\,III I I I III,/  |
+     \\   \`~~~~~~~~~~'    /
+       \\   .       .   /
+         \\.    ^    ./
+           ^~~~^~~~^`;
+
+  const skullElement = document.getElementById('hacker-bg');
+  let charIndex = 0;
+
+  function drawSkull() {
+    if (charIndex < asciiArt.length) {
+      // Çok hızlı çizilmesi için her seferinde 5 karakter birden basıyoruz
+      skullElement.textContent += asciiArt.substring(charIndex, charIndex + 5);
+      charIndex += 5;
+      setTimeout(drawSkull, 5); 
+    }
+  }
+  // Sayfa yüklendiğinde kuru kafayı çizmeye başla
+  drawSkull();
+
+
   // MATRIX ARKA PLAN KODLARI
   const canvas = document.getElementById('matrix');
   const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  
-  // EKSİK OLAN KISIM BURADAN İTİBAREN TAMAMLANDI
   const letters = "010101010101CYBERATU";
   const fontSize = 16;
   const columns = canvas.width / fontSize;
