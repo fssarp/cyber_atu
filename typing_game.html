@@ -19,16 +19,71 @@
     position: relative;
     z-index: 1;
     text-align: center;
+    max-width: 1200px;
   }
+  
+  /* YAN YANA DURMALARI İÇİN FLEXBOX DÜZENİ */
+  .game-layout {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    flex-wrap: wrap; /* Dar ekranda alt alta inmesi için */
+  }
+
   .terminal-box {
     background-color: rgba(0, 0, 0, 0.9);
     border: 2px solid #00ff00;
     border-radius: 10px;
     padding: 30px;
+    flex: 1;
+    min-width: 320px;
     max-width: 800px;
-    margin: 0 auto;
     box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
   }
+
+  /* SEVİMLİ BİLGİ KUTUCUĞU TASARIMI */
+  .info-box {
+    background-color: rgba(0, 20, 0, 0.85);
+    border: 2px dashed #00ff00;
+    border-radius: 15px; /* Sevimli yuvarlak köşeler */
+    padding: 25px;
+    width: 300px;
+    text-align: left;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+    animation: float 3s ease-in-out infinite; /* Uçma efekti */
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+  }
+
+  .info-box h4 {
+    color: #fff;
+    text-shadow: 0 0 8px #00ff00;
+    font-size: 1.2rem;
+    border-bottom: 1px dashed #004400;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+  .info-box p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+
+  .info-box .highlight {
+    color: #000;
+    background: #00ff00;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: bold;
+  }
+
   .terminal-header {
     border-bottom: 1px dashed #004400;
     margin-bottom: 20px;
@@ -140,33 +195,44 @@
 <body>
 
 <div class="container">
-  <div class="terminal-box">
-    <div class="terminal-header">
-      >_ MODÜL: [01] SİBER KLAVYE TESTİ<br>
-      <span style="font-size:0.9rem; color:#aaa;">Görev: Ekrana gelen siber güvenlik terimlerini en hızlı şekilde yaz. Kelimeyi bitirince BOŞLUK (Space) tuşuna bas.</span>
-    </div>
-
-    <div class="stats-board">
-      <div>SÜRE: <span id="time">60</span>s</div>
-      <div>SKOR: <span id="score">0</span></div>
-    </div>
-
-    <div class="word-display" id="wordDisplay">
+  <div class="game-layout">
+    
+    <div class="terminal-box">
+      <div class="terminal-header">
+        >_ MODÜL: [01] SİBER KLAVYE TESTİ
       </div>
 
-    <input type="text" id="typeInput" placeholder="Başlamak için butona tıkla..." disabled autocomplete="off">
-    <br>
-    <button class="btn-cyber" id="startBtn">SİSTEMİ BAŞLAT</button>
+      <div class="stats-board">
+        <div>SÜRE: <span id="time">60</span>s</div>
+        <div>SKOR: <span id="score">0</span></div>
+      </div>
 
-    <div id="results">
-      <h3>>_ ANALİZ RAPORU</h3>
-      <p>Yazma Hızı (WPM): <span id="wpmResult">0</span></p>
-      <p>Doğruluk Oranı: %<span id="accuracyResult">0</span></p>
+      <div class="word-display" id="wordDisplay">
+        </div>
+
+      <input type="text" id="typeInput" placeholder="Başlamak için butona tıkla..." disabled autocomplete="off">
+      <br>
+      <button class="btn-cyber" id="startBtn">SİSTEMİ BAŞLAT</button>
+
+      <div id="results">
+        <h3>>_ ANALİZ RAPORU</h3>
+        <p>Yazma Hızı (WPM): <span id="wpmResult">0</span></p>
+        <p>Doğruluk Oranı: %<span id="accuracyResult">0</span></p>
+      </div>
+
+      <button id="retryBtn" class="retry-link">>> yeniden_dene</button>
+      <br>
+      <a href="rank.html" class="back-link"><< menuye_don</a>
     </div>
 
-    <button id="retryBtn" class="retry-link">>> yeniden_dene</button>
-    <br>
-    <a href="rank.html" class="back-link"><< menuye_don</a>
+    <div class="info-box">
+      <h4>[?] NASIL OYNANIR?</h4>
+      <p>>_ Ekranda beliren siber kelimeleri sırasıyla ve doğru bir şekilde yaz.</p>
+      <p>>_ Kelimeyi bitirdiğinde <span class="highlight">BOŞLUK</span> tuşuna basarak diğerine geç.</p>
+      <p style="color: #ff4444; font-weight: bold; text-shadow: 0 0 5px red;">[!] DİKKAT: Yanlış yazdığın ve geçtiğin kelimeler geri alınamaz!</p>
+      <div style="text-align: center; font-size: 2.5rem; margin-top: 15px;">👾</div>
+    </div>
+
   </div>
 </div>
 
