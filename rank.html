@@ -23,7 +23,7 @@
     z-index: 0;
   }
 
-  /* ANA İÇERİK LAYER 1 (Terminal artık kuru kafanın arkasında) */
+  /* ANA İÇERİK LAYER 1 */
   .container {
     position: relative;
     z-index: 1;
@@ -33,7 +33,7 @@
   
   /* TERMİNAL TASARIMI */
   .terminal-box {
-    background-color: rgba(0, 0, 0, 0.7); /* Arkası daha net görünsün diye şeffaflığı artırdık */
+    background-color: rgba(0, 0, 0, 0.7); 
     border: 2px solid #00ff00;
     border-radius: 10px;
     padding: 30px;
@@ -60,7 +60,7 @@
     font-size: 1.2rem;
     transition: 0.2s;
     position: relative;
-    z-index: 99999; /* Linklere tıklanabilsin diye en öne aldık */
+    z-index: 99999; 
   }
   
   .menu-list a:hover {
@@ -76,7 +76,7 @@
     border-top: 1px solid #002200;
     padding-top: 15px;
     position: relative;
-    z-index: 99999; /* İnputa tıklanabilsin diye */
+    z-index: 99999; 
   }
 
   #subTerminalInput {
@@ -114,20 +114,31 @@
     text-shadow: 0 0 8px #00ff00;
   }
 
-  /* HACKER FİGÜRÜ LAYER 2 (EN ÖNDE) */
+  /* HACKER FİGÜRÜ LAYER 2 (DEVASA VE PARLAK) */
   #hacker-bg {
     position: fixed;
-    top: 45%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9999; /* Terminalin ÖNÜNE aldık */
-    color: rgba(0, 255, 0, 0.45); /* Parlaklık artırıldı */
-    font-size: 1.4vw;
-    line-height: 1.2;
-    pointer-events: none; /* Mouse tıklamaları içinden geçip terminale ulaşsın */
-    text-shadow: 0 0 15px #00ff00;
+    z-index: 9999; 
+    color: #00ff00; /* Tam ve parlak yeşil */
+    opacity: 0.65; /* Okunabilirliği bozmaması için %65 saydam */
+    font-size: 2.8vw; /* ESKİSİNDEN İKİ KAT BÜYÜK */
+    font-weight: bold;
+    line-height: 1.05;
+    pointer-events: none; 
+    text-shadow: 0 0 15px #00ff00, 0 0 30px #00ff00; /* Güçlü neon ışıma */
     white-space: pre;
     text-align: center;
+    animation: glitch 4s infinite; /* Titreme efekti eklendi */
+  }
+
+  /* SİBER TİTREME EFEKTİ */
+  @keyframes glitch {
+    0% { opacity: 0.65; transform: translate(-50%, -50%) scale(1); }
+    1% { opacity: 0.85; transform: translate(-51%, -49%) scale(1.02); text-shadow: 0 0 40px #00ff00; }
+    2% { opacity: 0.65; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0.65; }
   }
 
 </style>
@@ -147,7 +158,7 @@
     
     <div class="menu-list">
       <a href="typing_game.html">[01] Siber Klavye Testi (Hızlı Yazma)</a>
-      <a href="#">[02] Base64 Kriptografi Terminali</a>
+      <a href="base64.html">[02] Base64 Kriptografi Terminali</a>
       <a href="#">[03] Kali Linux Zafiyet Simülatörü (Sanal Ağ)</a>
     </div>
 
@@ -167,101 +178,4 @@
 </div>
 
 <script>
-  // KURU KAFA HIZLI ÇİZİM (TYPEWRITER) EFEKTİ
-  const asciiArt = `        _,.-------.,_
-    ,;~'             '~;,
-  ,;                     ;,
- ;                         ;
-,'                         ',
-,;                           ;,
-; ;      .           .      ; ;
-| ;   ______       ______   ; |
-|  \`/~"     ~" . "~     "~\\'  |
-|  ~  ,-~~~^~, | ,~^~~~-,  ~  |
- |   |        }:{        |   |
- |   l       / | \\       !   |
- .~  (__,.--" .^. "--.,__)  ~.
- |     ---;' / | \\ \`;---     |
-  \\__.       \\/^\\/       .__/
-   V| \\                 / |V
-    | |T~\\___!___!___/~T| |
-    | |\`IIII_I_I_I_IIII'| |
-    |  \\,III I I I III,/  |
-     \\   \`~~~~~~~~~~'    /
-       \\   .       .   /
-         \\.    ^    ./
-           ^~~~^~~~^`;
-
-  const skullElement = document.getElementById('hacker-bg');
-  let charIndex = 0;
-
-  function drawSkull() {
-    if (charIndex < asciiArt.length) {
-      // Çok hızlı çizilmesi için her seferinde 5 karakter birden basıyoruz
-      skullElement.textContent += asciiArt.substring(charIndex, charIndex + 5);
-      charIndex += 5;
-      setTimeout(drawSkull, 5); 
-    }
-  }
-  // Sayfa yüklendiğinde kuru kafayı çizmeye başla
-  drawSkull();
-
-
-  // MATRIX ARKA PLAN KODLARI
-  const canvas = document.getElementById('matrix');
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  const letters = "010101010101CYBERATU";
-  const fontSize = 16;
-  const columns = canvas.width / fontSize;
-  const drops = Array(Math.floor(columns)).fill(1);
-
-  function drawMatrix() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#00ff00";
-    ctx.font = fontSize + "px monospace";
-    for(let i = 0; i < drops.length; i++) {
-      const text = letters[Math.floor(Math.random() * letters.length)];
-      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-      if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
-    }
-  }
-  setInterval(drawMatrix, 50);
-
-  // TERMİNAL YÖNLENDİRME MANTIĞI
-  const termInput = document.getElementById('subTerminalInput');
-  const termError = document.getElementById('subTerminalError');
-
-  document.addEventListener('click', (e) => {
-    if(e.target.tagName !== 'INPUT' && e.target.tagName !== 'A') {
-      termInput.focus();
-    }
-  });
-
-  termInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-      const cmd = this.value.trim();
-      
-      if (cmd === '1' || cmd === '01') {
-        window.location.href = 'typing_game.html';
-      } 
-      else if (cmd === '2' || cmd === '02') {
-        alert("Base64 Terminali yükleniyor... (Kodlanacak)");
-      } 
-      else if (cmd === '3' || cmd === '03') {
-        alert("Kali Simülatörü başlatılıyor... (Kodlanacak)");
-      } 
-      else if (cmd !== '') {
-        termError.style.display = 'block';
-        this.value = '';
-        setTimeout(() => termError.style.display = 'none', 2000);
-      }
-    }
-  });
-</script>
-
-</body>
-</html>
+  // KURU KA
