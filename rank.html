@@ -56,10 +56,10 @@
     gap: 15px;
   }
   .word {
-    color: #444; /* Gelecek kelimeler sönük */
+    color: #444; 
   }
   .word.active {
-    color: #00ff00; /* Aktif kelime parlak yeşil */
+    color: #00ff00; 
     text-shadow: 0 0 10px #00ff00;
     text-decoration: underline;
   }
@@ -109,15 +109,20 @@
     border-top: 1px dashed #004400;
     padding-top: 20px;
   }
-  .back-link {
-    display: inline-block;
+  .retry-link {
+    display: none; /* Sadece oyun bitince görünecek */
     margin-top: 30px;
     color: #00ff00;
+    background: transparent;
+    border: none;
+    font-family: monospace;
+    font-size: 1.2rem;
+    cursor: pointer;
+    outline: none;
     text-decoration: none;
-    font-size: 1.1rem;
   }
-  .back-link:hover {
-    text-shadow: 0 0 8px #00ff00;
+  .retry-link:hover {
+    text-shadow: 0 0 10px #00ff00;
   }
 </style>
 </head>
@@ -148,7 +153,7 @@
       <p>Doğruluk Oranı: %<span id="accuracyResult">0</span></p>
     </div>
 
-    <a href="index.html" class="back-link"><< ana_dizine_don</a>
+    <button id="retryBtn" class="retry-link">>> yeniden_dene</button>
   </div>
 </div>
 
@@ -177,28 +182,27 @@
   const resultsDiv = document.getElementById('results');
   const wpmResult = document.getElementById('wpmResult');
   const accuracyResult = document.getElementById('accuracyResult');
+  const retryBtn = document.getElementById('retryBtn');
 
-  // Rastgele kelimeleri karıştırıp getir
   function shuffleWords() {
     return wordsArray.sort(() => Math.random() - 0.5);
   }
 
-  // Ekrana kelimeleri bas
   function loadWords() {
-    currentWords = shuffleWords().slice(0, 10); // Ekranda 10 kelime göster
+    currentWords = shuffleWords().slice(0, 10);
     wordDisplay.innerHTML = '';
     currentWords.forEach((word, index) => {
       const span = document.createElement('span');
       span.innerText = word;
       span.classList.add('word');
-      if (index === 0) span.classList.add('active'); // İlk kelimeyi aktif yap
+      if (index === 0) span.classList.add('active');
       wordDisplay.appendChild(span);
     });
     currentWordIndex = 0;
   }
 
-  // Oyunu Başlat
-  startBtn.addEventListener('click', () => {
+  // Oyunu başlatan ana fonksiyon
+  function startGame() {
     if (isPlaying) return;
     isPlaying = true;
     time = 60;
@@ -206,20 +210,25 @@
     mistakes = 0;
     scoreDisplay.innerText = score;
     timeDisplay.innerText = time;
-    resultsDiv.style.display = 'none';
     
+    // UI Ayarlamaları
+    resultsDiv.style.display = 'none';
     startBtn.style.display = 'none';
+    retryBtn.style.display = 'none';
+    
     typeInput.disabled = false;
     typeInput.placeholder = "Yazmaya başla...";
     typeInput.value = '';
     typeInput.focus();
 
     loadWords();
-
     timerInterval = setInterval(updateTime, 1000);
-  });
+  }
 
-  // Süreyi Güncelle
+  // Hem BAŞLAT butonuna hem de YENİDEN DENE linkine aynı fonksiyonu bağladık
+  startBtn.addEventListener('click', startGame);
+  retryBtn.addEventListener('click', startGame);
+
   function updateTime() {
     time--;
     timeDisplay.innerText = time;
@@ -228,42 +237,39 @@
     }
   }
 
-  // Oyun Bitişi
   function endGame() {
     clearInterval(timerInterval);
     isPlaying = false;
     typeInput.disabled = true;
     typeInput.value = '';
     typeInput.placeholder = "Sistem kilitlendi.";
-    startBtn.style.display = 'inline-block';
-    startBtn.innerText = "YENİDEN DENEME BAŞLAT";
     
-    // Skor Hesaplama (WPM ve Doğruluk)
     const totalAttempts = score + mistakes;
     const accuracy = totalAttempts > 0 ? Math.round((score / totalAttempts) * 100) : 0;
     
     wpmResult.innerText = score;
     accuracyResult.innerText = accuracy;
+    
+    // Sonuçları ve yeniden dene butonunu göster
     resultsDiv.style.display = 'block';
+    retryBtn.style.display = 'inline-block';
   }
 
-  // Klavye Girdilerini Kontrol Et
   typeInput.addEventListener('input', (e) => {
     const activeWordSpan = wordDisplay.childNodes[currentWordIndex];
     const typedText = typeInput.value;
     const targetWord = currentWords[currentWordIndex];
 
-    // Boşluk tuşuna basıldıysa kelime geçişini kontrol et
     if (typedText.endsWith(' ')) {
       const cleanTyped = typedText.trim();
       
       if (cleanTyped === targetWord) {
         score++;
         scoreDisplay.innerText = score;
-        activeWordSpan.style.color = '#004400'; // Doğru yazılanı koyu yeşil yap
+        activeWordSpan.style.color = '#004400'; 
       } else {
         mistakes++;
-        activeWordSpan.style.color = 'red'; // Yanlış geçileni kırmızı yap
+        activeWordSpan.style.color = 'red'; 
       }
       
       activeWordSpan.classList.remove('active');
@@ -272,7 +278,6 @@
       typeInput.value = '';
       currentWordIndex++;
 
-      // Kelimeler bittiyse yenilerini yükle
       if (currentWordIndex >= currentWords.length) {
         loadWords();
       } else {
@@ -281,7 +286,6 @@
       return;
     }
 
-    // O anki yazım kontrolü (Hatalı harf girildiyse uyar)
     if (!targetWord.startsWith(typedText)) {
       activeWordSpan.classList.add('error');
     } else {
