@@ -10,10 +10,24 @@
     margin: 0;
     padding: 0;
     font-family: monospace;
-    background: black;
+    /* YENİ HACKER ARKA PLAN RESMİ */
+    background: black url('http://googleusercontent.com/image_collection/image_retrieval/13338421582616747988') no-repeat center center fixed;
+    background-size: cover;
     color: #00ff00;
     overflow-x: hidden;
   }
+
+  /* Okunabilirliği artırmak için resmin üzerine hafif siyah bir tül çektik */
+  .bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 0;
+  }
+
   .container {
     margin-top: 50px;
     position: relative;
@@ -28,30 +42,32 @@
     justify-content: center;
     align-items: flex-start;
     gap: 30px;
-    flex-wrap: wrap; /* Dar ekranda alt alta inmesi için */
+    flex-wrap: wrap; 
   }
 
   .terminal-box {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.85); /* Arka plan resmi hafifçe görünsün diye */
     border: 2px solid #00ff00;
     border-radius: 10px;
     padding: 30px;
     flex: 1;
     min-width: 320px;
     max-width: 800px;
-    box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+    backdrop-filter: blur(2px);
   }
 
   /* SEVİMLİ BİLGİ KUTUCUĞU TASARIMI */
   .info-box {
     background-color: rgba(0, 20, 0, 0.85);
     border: 2px dashed #00ff00;
-    border-radius: 15px; /* Sevimli yuvarlak köşeler */
+    border-radius: 15px; 
     padding: 25px;
     width: 300px;
     text-align: left;
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
-    animation: float 3s ease-in-out infinite; /* Uçma efekti */
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    animation: float 3s ease-in-out infinite; 
+    backdrop-filter: blur(2px);
   }
   
   @keyframes float {
@@ -99,7 +115,7 @@
     border: 1px solid #00ff00;
     padding: 15px;
     border-radius: 5px;
-    background: #001100;
+    background: rgba(0, 17, 0, 0.8);
   }
   .word-display {
     font-size: 2rem;
@@ -112,7 +128,7 @@
     gap: 15px;
   }
   .word {
-    color: #444; 
+    color: #666; 
   }
   .word.active {
     color: #00ff00; 
@@ -124,7 +140,7 @@
     text-shadow: 0 0 10px red;
   }
   input[type="text"] {
-    background: black;
+    background: rgba(0, 0, 0, 0.7);
     border: 2px solid #00ff00;
     color: #00ff00;
     font-family: monospace;
@@ -194,6 +210,8 @@
 </head>
 <body>
 
+<div class="bg-overlay"></div>
+
 <div class="container">
   <div class="game-layout">
     
@@ -237,6 +255,7 @@
 </div>
 
 <script>
+  // MATRIX KODLARI TAMAMEN SİLİNDİ, SADECE OYUN MANTIĞI KALDI
   const wordsArray = [
     'siber', 'güvenlik', 'terminal', 'şifre', 'protokol', 'sunucu', 'yazılım', 
     'matris', 'kriptografi', 'zafiyet', 'kimlik', 'saldırı', 'savunma', 'kötücül', 
@@ -341,7 +360,7 @@
       if (cleanTyped === targetWord) {
         score++;
         scoreDisplay.innerText = score;
-        activeWordSpan.style.color = '#004400'; 
+        activeWordSpan.style.color = '#00ff00'; // Daha parlak yeşil
       } else {
         mistakes++;
         activeWordSpan.style.color = 'red'; 
