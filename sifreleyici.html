@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kripto Terminali | Cyber ATU</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+    background: black url('http://googleusercontent.com/image_collection/image_retrieval/13338421582616747988') no-repeat center center fixed;
+    background-size: cover;
+    color: #00ff00;
+    overflow-x: hidden;
+  }
+
+  .bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); 
+    z-index: 0;
+  }
+
+  .container {
+    margin-top: 50px;
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+  }
+  
+  .game-layout {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    flex-wrap: wrap; 
+  }
+
+  .terminal-box {
+    background-color: rgba(0, 0, 0, 0.85); 
+    border: 2px solid #00ff00;
+    border-radius: 10px;
+    padding: 30px;
+    flex: 1;
+    min-width: 350px;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+    backdrop-filter: blur(5px);
+  }
+
+  /* MOD SEÇİCİ (TABS) */
+  .method-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #004400;
+    padding-bottom: 15px;
+  }
+  .method-btn {
+    background: transparent;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.3s;
+  }
+  .method-btn.active {
+    background: #00ff00;
+    color: black;
+    box-shadow: 0 0 10px #00ff00;
+  }
+
+  textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    font-family: monospace;
+    font-size: 1.1rem;
+    padding: 15px;
+    border-radius: 5px;
+    outline: none;
+    min-height: 120px;
+    margin-bottom: 20px;
+  }
+  
+  .btn-cyber {
+    background: black;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    padding: 10px 25px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-right: 10px;
+  }
+  .btn-cyber:hover {
+    background: #00ff00;
+    color: black;
+  }
+
+  .output-box {
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(0, 20, 0, 0.9);
+    border: 1px dashed #00ff00;
+    min-height: 100px;
+    word-break: break-all;
+  }
+
+  .info-box {
+    background-color: rgba(0, 20, 0, 0.85);
+    border: 2px dashed #00ff00;
+    border-radius: 15px; 
+    padding: 25px;
+    width: 300px;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .back-link {
+    display: block;
+    margin-top: 20px;
+    color: #00ff00;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-overlay"></div>
+
+<div class="container">
+  <div class="game-layout">
+    
+    <div class="terminal-box">
+      <h3 style="color: #00ff00; margin-bottom: 20px;">>_ KRİPTO_MOTORU v2.0</h3>
+      
+      <div class="method-selector">
+        <button class="method-btn active" onclick="setMethod('base64', this)">Base64</button>
+        <button class="method-btn" onclick="setMethod('caesar', this)">Caesar</button>
+        <button class="method-btn" onclick="setMethod('reverse', this)">Reverse</button>
+      </div>
+
+      <textarea id="cryptoInput" placeholder="Mesajınızı buraya girin..."></textarea>
+
+      <div>
+        <button class="btn-cyber" onclick="process('encode')">ŞİFRELE</button>
+        <button class="btn-cyber" onclick="process('decode')">ÇÖZ</button>
+      </div>
+
+      <div class="output-box">
+        <span style="color: #888;">>_ SONUÇ:</span><br>
+        <p id="cryptoOutput" style="margin-top:10px;">Veri bekleniyor...</p>
+      </div>
+
+      <a href="rank.html" class="back-link"><< menuye_don</a>
+    </div>
+
+    <div class="info-box">
+      <h4 style="color: #fff;">[?] BİLGİ</h4>
+      <p id="methodInfo">Base64: Verileri ASCII formatına dönüştüren bir kodlama türüdür.</p>
+      <div style="text-align: center; font-size: 2rem;">🛡️</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let currentMethod = 'base64';
+  const output = document.getElementById('cryptoOutput');
+  const infoText = document.getElementById('methodInfo');
+
+  const infoMap = {
+    'base64': 'Base64: Verileri metin formatında iletmek için kullanılan yaygın bir kodlama türüdür.',
+    'caesar': 'Caesar: Harfleri alfabede belirli bir sayı kadar kaydırarak şifreleme yapar (Anahtar: 3).',
+    'reverse': 'Reverse: Yazdığınız metni karakter karakter tam tersine çevirir.'
+  };
+
+  function setMethod(method, btn) {
+    currentMethod = method;
+    infoText.innerText = infoMap[method];
+    document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    output.innerText = "Yöntem değiştirildi: " + method;
+  }
+
+  function scrambleAnim(text) {
+    let i = 0;
+    const chars = "!@#$%^&*()_+1234567890";
+    const interval = setInterval(() => {
+      output.innerText = text.split('').map((c, idx) => idx < i ? c : chars[Math.floor(Math.random()*chars.length)]).join('');
+      if(i >= text.length) clearInterval(interval);
+      i += 1;
+    }, 30);
+  }
+
+  function process(action) {
+    const val = document.getElementById('cryptoInput').value;
+    if(!val) return output.innerText = "Hata: Girdi boş!";
+    
+    let result = "";
+
+    if(currentMethod === 'base64') {
+      try {
+        result = action === 'encode' ? btoa(val) : atob(val);
+      } catch(e) { result = "Hata: Geçersiz format!"; }
+    } 
+    else if(currentMethod === 'caesar') {
+      const shift = action === 'encode' ? 3 : -3;
+      result = val.replace(/[a-z]/gi, (c) => {
+        const f = c <= 'Z' ? 65 : 97;
+        return String.fromCharCode(((c.charCodeAt(0) - f + shift + 26) % 26) + f);
+      });
+    }
+    else if(currentMethod === 'reverse') {
+      result = val.split('').reverse().join('');
+    }
+
+    scrambleAnim(result);
+  }
+</script>
+
+</body>
+</html>
