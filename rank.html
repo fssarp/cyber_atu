@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Siber Güvenlik Sitesi</title>
+<title>Yarışmalar ve Oyun | Cyber ATU</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
   body {
@@ -14,152 +14,281 @@
     color: #00ff00;
     overflow-x: hidden;
   }
-  canvas#matrix {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 0;
-  }
-  section {
-    padding: 100px 20px;
-    min-height: 100vh;
+  .container {
+    margin-top: 50px;
     position: relative;
     z-index: 1;
-  }
-  h1, h2 {
-    color: #00ff00;
-  }
-  nav {
-    background-color: rgba(0,0,0,0.8);
-    z-index: 2;
-  }
-  footer {
-    background-color: rgba(0,0,0,0.8);
     text-align: center;
-    padding: 20px;
-    z-index: 1;
-    position: relative;
   }
-  a.nav-link, a.instagram-link {
-    color: #00ff00 !important;
+  .terminal-box {
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 2px solid #00ff00;
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
   }
-  table tbody tr td {
-    color: #aaffaa !important;
+  .terminal-header {
+    border-bottom: 1px dashed #004400;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    font-size: 1.2rem;
+  }
+  .stats-board {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    border: 1px solid #00ff00;
+    padding: 15px;
+    border-radius: 5px;
+    background: #001100;
+  }
+  .word-display {
+    font-size: 2rem;
+    letter-spacing: 2px;
+    margin: 30px 0;
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .word {
+    color: #444; /* Gelecek kelimeler sönük */
+  }
+  .word.active {
+    color: #00ff00; /* Aktif kelime parlak yeşil */
+    text-shadow: 0 0 10px #00ff00;
+    text-decoration: underline;
+  }
+  .word.error {
+    color: red;
+    text-shadow: 0 0 10px red;
+  }
+  input[type="text"] {
+    background: black;
+    border: 2px solid #00ff00;
+    color: #00ff00;
+    font-family: monospace;
+    font-size: 1.5rem;
+    padding: 15px;
+    width: 60%;
+    text-align: center;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: inset 0 0 10px rgba(0,255,0,0.2);
+  }
+  input[type="text"]:disabled {
+    border-color: #444;
+    color: #444;
+  }
+  .btn-cyber {
+    background: black;
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    padding: 10px 30px;
+    font-family: monospace;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: 0.3s;
+  }
+  .btn-cyber:hover {
+    background: #00ff00;
+    color: black;
+    box-shadow: 0 0 15px #00ff00;
+  }
+  #results {
+    display: none;
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #00ff00;
+    border-top: 1px dashed #004400;
+    padding-top: 20px;
+  }
+  .back-link {
+    display: inline-block;
+    margin-top: 30px;
+    color: #00ff00;
+    text-decoration: none;
+    font-size: 1.1rem;
+  }
+  .back-link:hover {
+    text-shadow: 0 0 8px #00ff00;
   }
 </style>
 </head>
 <body>
 
-<canvas id="matrix"></canvas>
-
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgba(0,0,0,0.8); border-bottom: 1px solid #003300;">
-  <div class="container">
-    <a class="navbar-brand" href="index.html" style="color: #00ff00; font-family: monospace; text-shadow: 0 0 5px #00ff00;">>_ Cyber ATU</a>
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="border-color: #00ff00;">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="index.html" style="color: #00ff00 !important; border: 1px solid #00ff00; padding: 5px 15px !important; border-radius: 4px; font-family: monospace; background: rgba(0, 255, 0, 0.1);">
-            <span style="color: #fff;"></span> Ana Sayfa
-          </a>
-        </li>
-      </ul>
+<div class="container">
+  <div class="terminal-box">
+    <div class="terminal-header">
+      >_ MODÜL: [06] YARIŞMALAR VE OYUN<br>
+      <span style="font-size:0.9rem; color:#aaa;">Görev: Ekrana gelen siber güvenlik terimlerini en hızlı şekilde yaz. Kelimeyi bitirince BOŞLUK (Space) tuşuna bas.</span>
     </div>
-  </div>
-</nav>
 
-<div style="background: rgba(0, 255, 0, 0.1); color: #00ff00; padding: 8px 0; position: relative; z-index: 2; margin-top: 56px; border-bottom: 1px solid #00ff00; border-top: 1px solid #00ff00;">
-  <marquee behavior="scroll" direction="left" style="font-family: monospace; font-size: 1.1rem; padding-top: 5px;">
-    <span style="margin-right: 50px;">⚠️ GÜNCEL TEHDİT: Yeni bir oltalama (phishing) saldırısı dalgası tespit edildi. Bilinmeyen e-posta eklerini açmayınız!</span>
-    <span style="margin-right: 50px;">🛡️ ATU Cyber ile güvendesiniz. Sistemlerinizi her zaman güncel tutmayı unutmayın.</span>
-    <span>🔍 Zero-Day açıkları için yama yönetimini aksatmayın!</span>
-  </marquee>
+    <div class="stats-board">
+      <div>SÜRE: <span id="time">60</span>s</div>
+      <div>SKOR: <span id="score">0</span></div>
+    </div>
+
+    <div class="word-display" id="wordDisplay">
+      </div>
+
+    <input type="text" id="typeInput" placeholder="Başlamak için butona tıkla..." disabled autocomplete="off">
+    <br>
+    <button class="btn-cyber" id="startBtn">SİSTEMİ BAŞLAT</button>
+
+    <div id="results">
+      <h3>>_ ANALİZ RAPORU</h3>
+      <p>Yazma Hızı (WPM): <span id="wpmResult">0</span></p>
+      <p>Doğruluk Oranı: %<span id="accuracyResult">0</span></p>
+    </div>
+
+    <a href="index.html" class="back-link"><< ana_dizine_don</a>
+  </div>
 </div>
 
-
-
-
-
-
-<!-- Footer -->
-<footer>
-  <p>&copy; 2026 SiberSite | Tüm hakları saklıdır</p>
-  <p><a class="instagram-link" href="https://www.instagram.com/cyber_atu" target="_blank">Instagram: @cyber_atu</a></p>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Matrix JS -->
 <script>
-const canvas = document.getElementById('matrix');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const letters = "0101010101";
-const fontSize = 16;
-const columns = canvas.width / fontSize;
-const drops = Array(Math.floor(columns)).fill(1);
-function draw() {
-  ctx.fillStyle = "rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = "#00ff00";
-  ctx.font = fontSize + "px monospace";
-  for(let i=0;i<drops.length;i++){
-    const text = letters[Math.floor(Math.random()*letters.length)];
-    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-    if(drops[i]*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
-    drops[i]++;
+  const wordsArray = [
+    'siber', 'güvenlik', 'terminal', 'şifre', 'protokol', 'sunucu', 'yazılım', 
+    'matris', 'kriptografi', 'zafiyet', 'kimlik', 'saldırı', 'savunma', 'kötücül', 
+    'yedekleme', 'şifreleme', 'veritabanı', 'sistem', 'ağ', 'korsan', 'firewall', 
+    'phishing', 'malware', 'botnet', 'sızıntı', 'istismar', 'açık', 'şifreçözücü',
+    'linux', 'kali', 'sertifika', 'payload', 'trojan', 'ransomware', 'hash'
+  ];
+
+  let time = 60;
+  let score = 0;
+  let mistakes = 0;
+  let isPlaying = false;
+  let timerInterval;
+  let currentWords = [];
+  let currentWordIndex = 0;
+
+  const timeDisplay = document.getElementById('time');
+  const scoreDisplay = document.getElementById('score');
+  const wordDisplay = document.getElementById('wordDisplay');
+  const typeInput = document.getElementById('typeInput');
+  const startBtn = document.getElementById('startBtn');
+  const resultsDiv = document.getElementById('results');
+  const wpmResult = document.getElementById('wpmResult');
+  const accuracyResult = document.getElementById('accuracyResult');
+
+  // Rastgele kelimeleri karıştırıp getir
+  function shuffleWords() {
+    return wordsArray.sort(() => Math.random() - 0.5);
   }
-}
-setInterval(draw,50);
-window.addEventListener('resize',()=>{
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-</script>
 
-</body>
-<button id="backToTopBtn" style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 99; font-size: 18px; border: 1px solid #00ff00; outline: none; background-color: black; color: #00ff00; cursor: pointer; padding: 10px 15px; border-radius: 5px; font-family: monospace;">
-  ^ root
-</button>
+  // Ekrana kelimeleri bas
+  function loadWords() {
+    currentWords = shuffleWords().slice(0, 10); // Ekranda 10 kelime göster
+    wordDisplay.innerHTML = '';
+    currentWords.forEach((word, index) => {
+      const span = document.createElement('span');
+      span.innerText = word;
+      span.classList.add('word');
+      if (index === 0) span.classList.add('active'); // İlk kelimeyi aktif yap
+      wordDisplay.appendChild(span);
+    });
+    currentWordIndex = 0;
+  }
 
-<script>
-  let mybutton = document.getElementById("backToTopBtn");
-  
-  window.onscroll = function() {scrollFunction()};
-  
-  function scrollFunction() {
-    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-      mybutton.style.display = "block";
-    } else {
-      mybutton.style.display = "none";
+  // Oyunu Başlat
+  startBtn.addEventListener('click', () => {
+    if (isPlaying) return;
+    isPlaying = true;
+    time = 60;
+    score = 0;
+    mistakes = 0;
+    scoreDisplay.innerText = score;
+    timeDisplay.innerText = time;
+    resultsDiv.style.display = 'none';
+    
+    startBtn.style.display = 'none';
+    typeInput.disabled = false;
+    typeInput.placeholder = "Yazmaya başla...";
+    typeInput.value = '';
+    typeInput.focus();
+
+    loadWords();
+
+    timerInterval = setInterval(updateTime, 1000);
+  });
+
+  // Süreyi Güncelle
+  function updateTime() {
+    time--;
+    timeDisplay.innerText = time;
+    if (time === 0) {
+      endGame();
     }
   }
-  
-  mybutton.addEventListener("click", function() {
-    window.scrollTo({top: 0, behavior: 'smooth'});
+
+  // Oyun Bitişi
+  function endGame() {
+    clearInterval(timerInterval);
+    isPlaying = false;
+    typeInput.disabled = true;
+    typeInput.value = '';
+    typeInput.placeholder = "Sistem kilitlendi.";
+    startBtn.style.display = 'inline-block';
+    startBtn.innerText = "YENİDEN DENEME BAŞLAT";
+    
+    // Skor Hesaplama (WPM ve Doğruluk)
+    const totalAttempts = score + mistakes;
+    const accuracy = totalAttempts > 0 ? Math.round((score / totalAttempts) * 100) : 0;
+    
+    wpmResult.innerText = score;
+    accuracyResult.innerText = accuracy;
+    resultsDiv.style.display = 'block';
+  }
+
+  // Klavye Girdilerini Kontrol Et
+  typeInput.addEventListener('input', (e) => {
+    const activeWordSpan = wordDisplay.childNodes[currentWordIndex];
+    const typedText = typeInput.value;
+    const targetWord = currentWords[currentWordIndex];
+
+    // Boşluk tuşuna basıldıysa kelime geçişini kontrol et
+    if (typedText.endsWith(' ')) {
+      const cleanTyped = typedText.trim();
+      
+      if (cleanTyped === targetWord) {
+        score++;
+        scoreDisplay.innerText = score;
+        activeWordSpan.style.color = '#004400'; // Doğru yazılanı koyu yeşil yap
+      } else {
+        mistakes++;
+        activeWordSpan.style.color = 'red'; // Yanlış geçileni kırmızı yap
+      }
+      
+      activeWordSpan.classList.remove('active');
+      activeWordSpan.classList.remove('error');
+      
+      typeInput.value = '';
+      currentWordIndex++;
+
+      // Kelimeler bittiyse yenilerini yükle
+      if (currentWordIndex >= currentWords.length) {
+        loadWords();
+      } else {
+        wordDisplay.childNodes[currentWordIndex].classList.add('active');
+      }
+      return;
+    }
+
+    // O anki yazım kontrolü (Hatalı harf girildiyse uyar)
+    if (!targetWord.startsWith(typedText)) {
+      activeWordSpan.classList.add('error');
+    } else {
+      activeWordSpan.classList.remove('error');
+    }
   });
 </script>
 
-
-
-
-
-
-
+</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
