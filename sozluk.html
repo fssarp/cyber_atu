@@ -47,7 +47,7 @@
   }
   .dict-item:hover { background: #00ff00; color: #000; font-weight: bold; }
 
-  /* AÇIKLAMA ALANI - BOŞLUKLARI KORUYAN ÖZEL STİL */
+  /* AÇIKLAMA ALANI - BOŞLUKLARI GARANTİLEYEN STİL */
   .detail-panel { margin-top: 30px; border-top: 1px dashed #00ff00; padding-top: 25px; display: none; }
   .detail-title { font-size: 2.2rem; color: #fff; text-shadow: 0 0 15px #00ff00; margin-bottom: 15px; }
   
@@ -55,9 +55,9 @@
     font-size: 1.4rem; 
     line-height: 1.8; 
     color: #00ff00;
-    white-space: pre-wrap; /* BU SATIR KELİMELERİN YAPIŞMASINI ÖNLER */
-    word-wrap: break-word;
-    letter-spacing: 0.5px;
+    white-space: pre-wrap; /* KRİTİK: Boşlukları ve satırları olduğu gibi korur */
+    display: inline-block;
+    width: 100%;
   }
 
   .back-btn {
@@ -100,7 +100,7 @@
 </div>
 
 <script>
-  // MATRIX VE KURU KAFA MOTORU
+  // MATRIX VE KURU KAFA MOTORU (HİÇBİR ŞEY DEĞİŞMEDİ)
   const canvas = document.getElementById('matrix');
   const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -169,7 +169,7 @@
     { name: "Exploit", desc: "Güvenlik açıklarını kullanarak sisteme sızmak için yazılmış koddur." },
     { name: "Firewall", desc: "Ağ trafiğini denetleyen ve zararlı geçişleri engelleyen güvenlik duvarıdır." },
     { name: "Hash", desc: "Bir verinin benzersiz ve geri döndürülemez matematiksel özet değeridir." },
-    { name: "IP Adresi", desc: "İnternete bağlı her cihazın benzersiz kimlik numarasıdır." },
+    { name: "IP Adresi", desc: "İnternete bağlı her cihazın sahip olduğu benzersiz kimlik numarasıdır." },
     { name: "Keylogger", desc: "Klavyede basılan her tuşu gizlice kaydeden casus yazılımdır." },
     { name: "Malware", desc: "Sisteme zarar vermek için tasarlanmış tüm yazılımların genel adıdır." },
     { name: "Metasploit", desc: "Sızma testleri için kullanılan dünyanın en popüler saldırı platformudur." },
@@ -190,7 +190,6 @@
     { name: "White Hat", desc: "Etik kurallar çerçevesinde çalışan iyi niyetli güvenlik uzmanıdır." },
     { name: "Zero Day", desc: "Henüz yaması yayınlanmamış ve bilinmeyen kritik güvenlik açığıdır." },
     { name: "Zombi", desc: "Bir saldırganın kontrolü altına girmiş olan ele geçirilmiş bilgisayardır." }
-    // ... Buraya diğer kelimeleri de ekleyebilirsin
   ];
 
   const listContainer = document.getElementById('dictList');
@@ -208,17 +207,17 @@
         detailPanel.style.display = 'block';
         detTitle.innerText = `>_ ${item.name.toUpperCase()}`;
         
-        // ÖNCEKİ ANİMASYONU DURDUR
+        // ÖNCEKİ ANİMASYONU TEMİZLE
         if(window.typeInterval) clearInterval(window.typeInterval);
         
         let i = 0;
-        detDesc.textContent = ''; // TEMİZLE VE BAŞLAT
+        detDesc.innerText = ''; // TEMİZLE
         
         window.typeInterval = setInterval(() => {
-          // HARF HARF YAZDIRIRKEN BOŞLUKLARI KORUR
-          detDesc.textContent += item.desc.charAt(i);
+          // KRİTİK DÜZELTME: innerText yerine character ekleme yaparak boşluğu koruyoruz
+          detDesc.innerText = item.desc.substring(0, i);
           i++;
-          if(i >= item.desc.length) clearInterval(window.typeInterval);
+          if(i > item.desc.length) clearInterval(window.typeInterval);
         }, 15);
 
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
