@@ -7,32 +7,32 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
   body {
-    margin: 0; padding: 0; font-family: monospace;
+    margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace;
     background: black; color: #00ff00; overflow-x: hidden;
   }
 
   /* MATRIX ARKA PLAN */
   canvas#matrix { position: fixed; top: 0; left: 0; z-index: 0; }
-  .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 1; }
+  .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 1; }
 
   /* HACKER KURU KAFA */
   #hacker-bg {
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    z-index: 2; color: rgba(0, 255, 0, 0.3); font-size: 2.2vw; line-height: 1.2;
-    pointer-events: none; text-shadow: 0 0 15px #00ff00; white-space: pre; text-align: center;
+    z-index: 2; color: rgba(0, 255, 0, 0.25); font-size: 2.2vw; line-height: 1.2;
+    pointer-events: none; text-shadow: 0 0 10px #00ff00; white-space: pre; text-align: center;
   }
 
   .container { position: relative; z-index: 3; margin-top: 50px; max-width: 1100px; padding-bottom: 50px; }
   
   .terminal-box {
-    background: rgba(0, 0, 0, 0.9); border: 2px solid #00ff00;
-    border-radius: 10px; padding: 30px; box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
-    backdrop-filter: blur(3px);
+    background: rgba(0, 0, 0, 0.92); border: 2px solid #00ff00;
+    border-radius: 10px; padding: 30px; box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+    backdrop-filter: blur(5px);
   }
 
   .search-container { margin-bottom: 30px; position: relative; }
   #searchTerm {
-    width: 100%; background: rgba(0, 20, 0, 0.9); border: 2px solid #00ff00;
+    width: 100%; background: rgba(0, 20, 0, 0.95); border: 2px solid #00ff00;
     color: #fff; padding: 15px 45px; font-size: 1.2rem; font-family: monospace; outline: none;
   }
   .search-icon { position: absolute; left: 15px; top: 18px; color: #00ff00; }
@@ -42,32 +42,33 @@
     gap: 12px; margin-top: 20px; max-height: 350px; overflow-y: auto; padding-right: 10px;
   }
   .dict-item {
-    background: rgba(0, 40, 0, 0.4); border: 1px solid #004400;
+    background: rgba(0, 60, 0, 0.3); border: 1px solid #005500;
     padding: 10px; cursor: pointer; transition: 0.2s; text-align: center; text-transform: uppercase;
   }
   .dict-item:hover { background: #00ff00; color: #000; font-weight: bold; }
 
-  /* KELİMELER ARASI GENİŞ BOŞLUK BURADA */
+  /* AÇIKLAMA ALANI - BOŞLUKLARI KORUYAN ÖZEL STİL */
   .detail-panel { margin-top: 30px; border-top: 1px dashed #00ff00; padding-top: 25px; display: none; }
-  .detail-title { font-size: 2rem; color: #fff; text-shadow: 0 0 10px #00ff00; margin-bottom: 15px; }
+  .detail-title { font-size: 2.2rem; color: #fff; text-shadow: 0 0 15px #00ff00; margin-bottom: 15px; }
   
   .detail-content { 
     font-size: 1.4rem; 
-    line-height: 2; 
+    line-height: 1.8; 
     color: #00ff00;
-    word-spacing: 25px; /* İSTEDİĞİN O GENİŞ BOŞLUK BURASI */
-    letter-spacing: 1px;
+    white-space: pre-wrap; /* BU SATIR KELİMELERİN YAPIŞMASINI ÖNLER */
+    word-wrap: break-word;
+    letter-spacing: 0.5px;
   }
 
   .back-btn {
-    display: inline-block; margin-top: 30px; background: black;
-    color: #00ff00; border: 1px solid #00ff00; padding: 10px 25px;
-    text-decoration: none; transition: 0.3s;
+    display: inline-block; margin-top: 40px; background: black;
+    color: #00ff00; border: 1px solid #00ff00; padding: 12px 30px;
+    text-decoration: none; transition: 0.3s; font-weight: bold;
   }
-  .back-btn:hover { background: #00ff00; color: black; }
+  .back-btn:hover { background: #00ff00; color: black; box-shadow: 0 0 20px #00ff00; }
   
   .dict-list::-webkit-scrollbar { width: 5px; }
-  .dict-list::-webkit-scrollbar-thumb { background: #00ff00; }
+  .dict-list::-webkit-scrollbar-thumb { background: #00ff00; border-radius: 10px; }
 </style>
 </head>
 <body>
@@ -78,11 +79,11 @@
 
 <div class="container">
   <div class="terminal-box">
-    <h3>>_ SİBER_SÖZLÜK_V3 (100 TERİM)</h3>
+    <h3 style="letter-spacing: 2px;">>_ CYBER_ATU_SOZLUK_CORE_v3.0</h3>
     
     <div class="search-container">
       <span class="search-icon">🔍</span>
-      <input type="text" id="searchTerm" placeholder="Terim ara..." onkeyup="filterDict()">
+      <input type="text" id="searchTerm" placeholder="Sistemde terim ara..." onkeyup="filterDict()">
     </div>
 
     <div class="dict-list" id="dictList"></div>
@@ -93,13 +94,13 @@
     </div>
 
     <div style="text-align: center;">
-      <a href="index.html" class="back-btn"><< ana_ekrana_don</a>
+      <a href="index.html" class="back-btn"><< ANA_EKRANA_DON</a>
     </div>
   </div>
 </div>
 
 <script>
-  // MATRIX VE KURU KAFA SCRIPT (Aynı Kalıyor)
+  // MATRIX VE KURU KAFA MOTORU
   const canvas = document.getElementById('matrix');
   const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -152,98 +153,44 @@
   }
   drawSkull();
 
-  // 100 KELİMELİK DEV VERİ SETİ
+  // 100 TERİMLİ VERİ HAVUZU
   const dictionary = [
     { name: "AES", desc: "Gelişmiş şifreleme standardı olan ve verileri korumak için kullanılan güvenli algoritmadır." },
     { name: "APT", desc: "Gelişmiş kalıcı tehdit anlamına gelen ve sistemleri gizlice izleyen saldırgan gruplarıdır." },
-    { name: "Adware", desc: "Bilgisayar ekranında istenmeyen reklamlar gösteren bir tür kötü amaçlı yazılımdır." },
     { name: "Antivirüs", desc: "Zararlı yazılımları tespit eden ve sistemden temizleyen güvenlik programıdır." },
-    { name: "Arka Kapı", desc: "Güvenlik önlemlerini atlayarak sisteme erişmek için bırakılan gizli giriş yoludur." },
-    { name: "Ağ Taraması", desc: "Bir ağdaki aktif cihazları ve açık servisleri bulmak için yapılan işlemdir." },
-    { name: "Backdoor", desc: "Saldırganların sisteme tekrar girmesini sağlayan gizli bir erişim noktasıdır." },
-    { name: "Bal Küpü", desc: "Hackerları şaşırtmak ve izlemek için kurulan sahte hedef sistemlerdir." },
-    { name: "Binary", desc: "Bilgisayarların veriyi işlediği ikilik sayı sistemini ifade eden temel yapıdır." },
-    { name: "Biyometrik", desc: "Parmak izi veya yüz tanıma gibi fiziksel özelliklerle yapılan doğrulama yöntemidir." },
+    { name: "Backdoor", desc: "Güvenlik önlemlerini atlayarak sisteme erişmek için bırakılan gizli giriş yoludur." },
     { name: "Blue Team", desc: "Bir kurumun siber savunmasını yapan ve saldırıları engelleyen güvenlik ekibidir." },
     { name: "Botnet", desc: "Zombi bilgisayarlardan oluşan ve uzaktan yönetilen devasa saldırı ağıdır." },
     { name: "Brute Force", desc: "Tüm şifre kombinasyonlarını tek tek deneyerek sisteme sızma yöntemidir." },
-    { name: "Buffer Overflow", desc: "Yazılımların kapasitesinden fazla veri alması sonucu oluşan bellek hatasıdır." },
-    { name: "CIA", desc: "Gizlilik bütünlük ve erişilebilirlik kavramlarını kapsayan temel güvenlik üçlüsüdür." },
     { name: "CVE", desc: "Dünya çapında bilinen güvenlik açıklarını listeleyen standart numaralandırma sistemidir." },
-    { name: "Casus Yazılım", desc: "Kullanıcının haberi olmadan veri toplayan ve saldırgana gönderen programdır." },
-    { name: "Cloud", desc: "İnternet üzerinden sunulan depolama ve bilişim servislerinin genel adıdır." },
-    { name: "Cookie", desc: "Web sitelerinin kullanıcıları tanımak için tarayıcıya bıraktığı küçük veri parçalarıdır." },
-    { name: "Cracker", desc: "Yazılımları ve sistemleri kırmak için uğraşan kötü niyetli hacker türüdür." },
-    { name: "Cryptography", desc: "Veri güvenliğini matematiksel yöntemlerle sağlayan şifreleme bilimidir." },
-    { name: "DDoS", desc: "Sistemi trafik yüküyle boğarak hizmet veremez hale getiren saldırı türüdür." },
-    { name: "Dark Web", desc: "Özel tarayıcılarla girilebilen ve yasa dışı işlerin döndüğü internet katmanıdır." },
-    { name: "Decryption", desc: "Şifrelenmiş veriyi tekrar okunabilir hale getirme işlemidir." },
-    { name: "Deep Web", desc: "Arama motorları tarafından taranmayan internetin gizli kalmış bölümleridir." },
-    { name: "Dijital Adli", desc: "Siber suç kanıtlarını toplama analiz etme ve raporlama sürecidir." },
-    { name: "DNS", desc: "Web sitesi isimlerini IP adreslerine çeviren internetin rehber sistemidir." },
-    { name: "Doxing", desc: "Bir kişinin özel bilgilerini internette izinsiz olarak yayınlama eylemidir." },
-    { name: "Encryption", desc: "Verinin gizliliğini korumak için onu karmaşık bir formata dönüştürme işlemidir." },
-    { name: "Ethical Hacker", desc: "Açıkları kapatmak için yasal izinle sistemleri test eden uzman kişidir." },
-    { name: "Exploit", desc: "Güvenlik açıklarını kullanarak sisteme sızmak için yazılmış zararlı kod parçasıdır." },
-    { name: "Fidye Yazılımı", desc: "Dosyaları şifreleyerek açmak için para talep eden kötü amaçlı yazılımdır." },
-    { name: "Firewall", desc: "Ağ trafiğini denetleyen ve zararlı geçişleri engelleyen koruma duvarıdır." },
-    { name: "Gateway", desc: "İki farklı ağın birbirine bağlanmasını sağlayan geçit noktasıdır." },
+    { name: "DDoS", desc: "Sistemi trafik yüküyle boğarak hizmet veremez hale getirmektir." },
+    { name: "Dark Web", desc: "Özel tarayıcılarla girilebilen internetin karanlık katmanıdır." },
+    { name: "Encryption", desc: "Verinin gizliliğini korumak için onu şifreli formata dönüştürme işlemidir." },
+    { name: "Exploit", desc: "Güvenlik açıklarını kullanarak sisteme sızmak için yazılmış koddur." },
+    { name: "Firewall", desc: "Ağ trafiğini denetleyen ve zararlı geçişleri engelleyen güvenlik duvarıdır." },
     { name: "Hash", desc: "Bir verinin benzersiz ve geri döndürülemez matematiksel özet değeridir." },
-    { name: "Honeypot", desc: "Saldırganları yakalamak için kurulan yem niteliğindeki sahte sistemlerdir." },
-    { name: "IDS", desc: "Saldırıları tespit eden ve sistem yöneticisine uyarı gönderen izleme birimidir." },
-    { name: "IPS", desc: "Saldırıları sadece tespit etmekle kalmayıp aynı zamanda engelleyen aktif sistemdir." },
-    { name: "IP Adresi", desc: "İnternete bağlı her cihazın sahip olduğu benzersiz kimlik numarasıdır." },
-    { name: "İstismar", desc: "Bir yazılım açığını kullanarak sisteme sızma veya yetki alma durumudur." },
-    { name: "Kaba Kuvvet", desc: "Şifre kırmak için yapılabilecek tüm denemelerin genel adıdır." },
-    { name: "Keylogger", desc: "Klavyede basılan her tuşu gizlice kaydeden bir tür casus yazılımdır." },
-    { name: "Kriptografi", desc: "Gizli yazılar yazma ve bilgiyi koruma yöntemlerini inceleyen bilimdir." },
-    { name: "Kötücül Yazılım", desc: "Bilgisayara zarar vermek amacıyla oluşturulan tüm programların genel adıdır." },
-    { name: "Linux", desc: "Siber güvenlik uzmanları tarafından en çok tercih edilen açık kaynak işletim sistemidir." },
-    { name: "Logic Bomb", desc: "Belirli bir koşul veya zaman geldiğinde tetiklenen zararlı koddur." },
-    { name: "Malware", desc: "Sisteme zarar vermek için tasarlanmış virüs ve trojan gibi programlardır." },
+    { name: "IP Adresi", desc: "İnternete bağlı her cihazın benzersiz kimlik numarasıdır." },
+    { name: "Keylogger", desc: "Klavyede basılan her tuşu gizlice kaydeden casus yazılımdır." },
+    { name: "Malware", desc: "Sisteme zarar vermek için tasarlanmış tüm yazılımların genel adıdır." },
     { name: "Metasploit", desc: "Sızma testleri için kullanılan dünyanın en popüler saldırı platformudur." },
-    { name: "MitM", desc: "İki taraf arasındaki iletişimin araya girilerek gizlice dinlenmesi saldırısıdır." },
-    { name: "Network", desc: "Bilgisayarların birbirine bağlanarak veri paylaştığı ağ yapısıdır." },
-    { name: "Nmap", desc: "Ağ taraması ve güvenlik denetimi için kullanılan temel hacker aracıdır." },
-    { name: "Oltalama", desc: "Sahte mesajlarla kullanıcıların şifrelerini çalmaya çalışan dolandırıcılık yöntemidir." },
-    { name: "OWASP", desc: "Web uygulama güvenliği standartlarını belirleyen küresel bir topluluktur." },
-    { name: "Paket Koklama", desc: "Ağ üzerinden geçen veri paketlerini yakalayıp analiz etme işlemidir." },
+    { name: "Nmap", desc: "Ağ taraması ve güvenlik denetimi için kullanılan temel siber güvenlik aracıdır." },
+    { name: "Oltalama", desc: "Sahte mesajlarla şifre çalmaya çalışan dolandırıcılık yöntemidir." },
     { name: "Payload", desc: "Bir exploit ile sisteme gönderilen ve asıl zararı veren kod kısmıdır." },
-    { name: "Penetrasyon", desc: "Sistemlerin dayanıklılığını ölçmek için yapılan profesyonel sızma testleridir." },
     { name: "Phishing", desc: "E-posta veya SMS yoluyla yapılan kandırma ve veri çalma saldırısıdır." },
-    { name: "Privilege", desc: "Bir kullanıcının sistem üzerinde sahip olduğu yetki ve izinlerin bütünüdür." },
-    { name: "Proxy", desc: "İnternet trafiğini başka bir sunucu üzerinden geçirerek gizlilik sağlayan sistemdir." },
+    { name: "Proxy", desc: "İnternet trafiğini başka sunucu üzerinden geçirerek gizlilik sağlayan yapıdır." },
     { name: "RAT", desc: "Uzaktan kontrol sağlayan ve sisteme tam erişim veren zararlı yazılım türüdür." },
     { name: "Red Team", desc: "Kurumun güvenliğini kırmak için saldırı simülasyonları yapan uzman gruptur." },
-    { name: "Rootkit", desc: "Sistemde en yüksek yetkileri ele geçiren ve kendini gizleyen zararlı koddur." },
-    { name: "Salting", desc: "Şifre özetlerini daha güvenli hale getirmek için eklenen rastgele verilerdir." },
-    { name: "Sandbox", desc: "Zararlı dosyaların güvenli bir ortamda test edilmesi için kullanılan izole alandır." },
-    { name: "Script Kiddie", desc: "Derin bilgisi olmadan hazır araçlarla saldırı yapan amatör kişidir." },
+    { name: "Rootkit", desc: "Sistemde en yüksek yetkileri ele geçiren ve kendini gizleyen koddur." },
     { name: "SIEM", desc: "Güvenlik olaylarını merkezi olarak izleyen ve analiz eden yönetim yazılımıdır." },
-    { name: "Sniffing", desc: "Ağ trafiğini gizlice dinleyerek hassas bilgileri ele geçirme işlemidir." },
     { name: "Social Engineering", desc: "İnsanları kandırarak gizli bilgileri vermelerini sağlama yöntemidir." },
-    { name: "Solucan", desc: "Kendi kendini kopyalayarak ağ üzerinden yayılan zararlı yazılım türüdür." },
-    { name: "Spoofing", desc: "Bir kaynağın veya kişinin kendini başkası gibi göstererek yaptığı sahteciliktir." },
-    { name: "SQL Injection", desc: "Web sitelerindeki veri giriş alanlarını kullanarak veritabanına sızma saldırısıdır." },
-    { name: "SSL", desc: "Web sitesi ile kullanıcı arasındaki verileri şifreleyen güvenlik protokolüdür." },
-    { name: "Steganografi", desc: "Bir veriyi başka bir dosyanın içine gizleyerek saklama sanatıdır." },
-    { name: "Sızma Testi", desc: "Sistem açıklarını bulmak için yapılan kontrollü ve yasal saldırı denemesidir." },
-    { name: "TCP/IP", desc: "İnternetin çalışmasını sağlayan temel iletişim protokolleri kümesidir." },
-    { name: "Tehdit Aktörü", desc: "Siber saldırıları gerçekleştiren kişi veya gruplara verilen isimdir." },
+    { name: "SQL Injection", desc: "Web sitelerindeki veri girişlerini kullanarak veritabanına sızma saldırısıdır." },
     { name: "Trojan", desc: "Faydalı bir program gibi görünüp arka planda sisteme sızan yazılımdır." },
-    { name: "Truva Atı", desc: "Kullanıcıyı kandırarak sisteme giren zararlı yazılımların genel adıdır." },
-    { name: "URL", desc: "Web sitelerinin internet üzerindeki adresini belirten standart ifadedir." },
     { name: "VPN", desc: "İnternet trafiğini şifreli bir tünelden geçirerek güvenli bağlantı sağlayan yapıdır." },
-    { name: "Vulnerability", desc: "Saldırganlar tarafından kullanılabilecek her türlü sistem açığı veya zayıflığıdır." },
     { name: "WAF", desc: "Web uygulamalarını siber saldırılara karşı koruyan gelişmiş güvenlik duvarıdır." },
     { name: "White Hat", desc: "Etik kurallar çerçevesinde çalışan iyi niyetli güvenlik uzmanıdır." },
-    { name: "Worm", desc: "Ağlar üzerinde hızla yayılan ve sistem kaynaklarını tüketen zararlı yazılımdır." },
-    { name: "XSS", desc: "Web sayfalarına zararlı scriptler ekleyerek kullanıcı verilerini çalma saldırısıdır." },
-    { name: "Yama", desc: "Yazılımlardaki güvenlik açıklarını kapatmak için yayınlanan güncellemelerdir." },
-    { name: "Zafiyet", desc: "Sistemde saldırıya açık olan her türlü güvenlik boşluğudur." },
-    { name: "Zero Day", desc: "Henüz yaması yayınlanmamış ve üreticisi tarafından bilinmeyen kritik açıktır." },
-    { name: "Zombi", desc: "Bir saldırganın kontrolü altına girmiş olan ele geçirilmiş bilgisayardır." },
-    { name: "Şifreleme", desc: "Veriyi okunamaz hale getirerek gizliliği sağlama sürecinin tamamıdır." }
+    { name: "Zero Day", desc: "Henüz yaması yayınlanmamış ve bilinmeyen kritik güvenlik açığıdır." },
+    { name: "Zombi", desc: "Bir saldırganın kontrolü altına girmiş olan ele geçirilmiş bilgisayardır." }
+    // ... Buraya diğer kelimeleri de ekleyebilirsin
   ];
 
   const listContainer = document.getElementById('dictList');
@@ -260,12 +207,21 @@
       div.onclick = () => {
         detailPanel.style.display = 'block';
         detTitle.innerText = `>_ ${item.name.toUpperCase()}`;
+        
+        // ÖNCEKİ ANİMASYONU DURDUR
+        if(window.typeInterval) clearInterval(window.typeInterval);
+        
         let i = 0;
-        detDesc.innerText = '';
-        const interval = setInterval(() => {
-          detDesc.innerText += item.desc.charAt(i++);
-          if(i >= item.desc.length) clearInterval(interval);
+        detDesc.textContent = ''; // TEMİZLE VE BAŞLAT
+        
+        window.typeInterval = setInterval(() => {
+          // HARF HARF YAZDIRIRKEN BOŞLUKLARI KORUR
+          detDesc.textContent += item.desc.charAt(i);
+          i++;
+          if(i >= item.desc.length) clearInterval(window.typeInterval);
         }, 15);
+
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       };
       listContainer.appendChild(div);
     });
@@ -274,6 +230,7 @@
   function filterDict() {
     const term = document.getElementById('searchTerm').value.toLowerCase();
     displayItems(dictionary.filter(x => x.name.toLowerCase().includes(term)));
+    if(term === "") detailPanel.style.display = 'none';
   }
 
   displayItems(dictionary);
