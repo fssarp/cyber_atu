@@ -47,6 +47,23 @@
     color: #aaffaa !important;
   }
 
+  /* --- SİTE LOGOSU İÇİN EKLENEN CSS --- */
+  .site-logo {
+    position: absolute; 
+    top: 20px;
+    left: 30px;
+    width: 100px; /* Logonun büyüklüğü */
+    height: auto;
+    z-index: 1000; /* Matrix'in ve diğer her şeyin üstünde */
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  
+  .site-logo:hover {
+    filter: drop-shadow(0 0 15px #00ff00); /* Üzerine gelince neon yeşil parlama */
+    transform: scale(1.05); /* Üzerine gelince hafif büyür */
+  }
+
   /* --- BİZİ TANIYIN BUTONU (SİBER TEMA) İÇİN EKLENEN CSS --- */
   .header-alani {
     position: absolute; 
@@ -108,13 +125,15 @@
   .dropdown:hover .dropdown-content {
     display: block;
   }
-  /* --- EKLENEN CSS BİTİŞİ --- */
-
 </style>
 </head>
 <body>
 
 <canvas id="matrix"></canvas>
+
+<a href="index.html">
+  <img src="cyber_atü_logo" alt="Cyber ATU Logo" class="site-logo">
+</a>
 
 <div class="header-alani">
   <div class="dropdown">
@@ -145,10 +164,8 @@
           <a href="radar.html" style="color: #00ff00; text-decoration: none; display: block;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#00ff00'">>_ [04] Dijital Ayak İzi Radarı</a>
           <a href="sifreleyici.html" style="color: #00ff00; text-decoration: none; display: block;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#00ff00'">>_ [05] Kripto Şifreleyeci </a>
           <a href="rank.html" style="color: #00ff00; text-decoration: none; display: block;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#00ff00'">>_ [06] Rank (Oyunlar ve Yarışmalar) </a>
-
         </div>
         
-
         <div style="display: flex; align-items: center; border-top: 1px dashed #333; padding-top: 20px;">
           <span style="color: #00ff00; margin-right: 10px;">root@cyber_atu:~$</span>
           <input type="text" id="terminalInput" autocomplete="off" autofocus placeholder="_" style="background: transparent; border: none; color: #00ff00; font-family: monospace; font-size: 1.2rem; outline: none; flex-grow: 1; text-shadow: 0 0 5px #00ff00;">
@@ -168,7 +185,7 @@
   const termError = document.getElementById('terminalError');
 
   document.addEventListener('click', function(e) {
-    if(e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
+    if(e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'IMG') {
       termInput.focus();
     }
   });
