@@ -1,39 +1,236 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siber Sözlük | Cyber ATU</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
-  /* ... Diğer stiller aynı kalabilir ... */
+  body {
+    margin: 0; padding: 0; font-family: monospace;
+    background: black; 
+    color: #00ff00;
+    overflow-x: hidden;
+  }
 
+  /* MATRIX ARKA PLAN */
+  canvas#matrix {
+    position: fixed; top: 0; left: 0; z-index: 0;
+  }
+
+  .bg-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75); z-index: 1;
+  }
+
+  /* HACKER KURU KAFA */
+  #hacker-bg {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2; 
+    color: rgba(0, 255, 0, 0.35);
+    font-size: 2.2vw;
+    line-height: 1.2;
+    pointer-events: none;
+    text-shadow: 0 0 15px #00ff00;
+    white-space: pre;
+    text-align: center;
+  }
+
+  .container {
+    position: relative;
+    z-index: 3;
+    margin-top: 50px;
+    max-width: 1100px;
+    padding-bottom: 50px;
+  }
+  
+  .terminal-box {
+    background: rgba(0, 0, 0, 0.88); border: 2px solid #00ff00;
+    border-radius: 10px; padding: 30px; box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+    backdrop-filter: blur(3px);
+  }
+
+  .search-container { margin-bottom: 30px; position: relative; }
+  #searchTerm {
+    width: 100%; background: rgba(0, 20, 0, 0.9); border: 2px solid #00ff00;
+    color: #fff; padding: 15px 45px; font-size: 1.2rem; font-family: monospace;
+    outline: none;
+  }
+  .search-icon { position: absolute; left: 15px; top: 18px; color: #00ff00; }
+
+  .dict-list {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px; margin-top: 20px; max-height: 400px; overflow-y: auto; padding-right: 10px;
+  }
+  .dict-item {
+    background: rgba(0, 40, 0, 0.4); border: 1px solid #004400;
+    padding: 10px; cursor: pointer; transition: 0.2s; text-align: center;
+    text-transform: uppercase;
+  }
+  .dict-item:hover { background: #00ff00; color: #000; font-weight: bold; }
+
+  /* DETAY ALANI VE KELİME BOŞLUĞU */
+  .detail-panel {
+    margin-top: 30px; border-top: 1px dashed #00ff00; padding-top: 25px;
+    display: none; animation: fadeIn 0.5s;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  
+  .detail-title { font-size: 2rem; color: #fff; text-shadow: 0 0 10px #00ff00; margin-bottom: 15px; }
+  
   .detail-content { 
     font-size: 1.3rem; 
-    line-height: 2; 
+    line-height: 1.8; 
     color: #00ff00;
-    text-align: left;
-    word-spacing: 15px; /* KELİMELER ARASINDAKİ BOŞLUĞU BURADAN AYARLAYABİLİRSİN */
+    word-spacing: 12px; /* KELİMELER ARASI GENİŞ BOŞLUK */
   }
 
-  /* Eski spaced-text stilini siliyoruz veya kullanmıyoruz */
+  .back-btn {
+    display: inline-block; margin-top: 30px; background: black;
+    color: #00ff00; border: 1px solid #00ff00; padding: 10px 25px;
+    text-decoration: none; transition: 0.3s;
+  }
+  .back-btn:hover { background: #00ff00; color: black; }
+  
+  .dict-list::-webkit-scrollbar { width: 5px; }
+  .dict-list::-webkit-scrollbar-thumb { background: #00ff00; }
 </style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+<div class="bg-overlay"></div>
+<div id="hacker-bg"></div>
+
+<div class="container">
+  <div class="terminal-box">
+    <h3>>_ SİBER_SÖZLÜK_TAM_SÜRÜM</h3>
+    
+    <div class="search-container">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchTerm" placeholder="Terim ara..." onkeyup="filterDict()">
+    </div>
+
+    <div class="dict-list" id="dictList"></div>
+
+    <div class="detail-panel" id="detailPanel">
+      <div class="detail-title" id="detTitle">TERİM</div>
+      <div class="detail-content" id="detDesc"></div>
+    </div>
+
+    <div style="text-align: center;">
+      <a href="index.html" class="back-btn"><< ana_ekrana_don</a>
+    </div>
+  </div>
+</div>
 
 <script>
-  // ... Dictionary verisi aynı kalıyor ...
+  // MATRIX VE KURU KAFA ÇİZİMİ
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const letters = "010101010101CYBERATU";
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
 
-  function showDetail(item) {
-    detailPanel.style.display = 'block';
-    detTitle.innerText = `>_ ${item.name.toUpperCase()}`;
-    
-    const description = item.desc;
-    detDesc.innerHTML = ''; // Temizle
-    
-    // Kelimeleri tek tek dökme efekti (Yan yana cümle şeklinde)
-    let i = 0;
-    const interval = setInterval(() => {
-      detDesc.innerText += description.charAt(i);
-      i++;
-      if(i >= description.length) {
-        clearInterval(interval);
-      }
-    }, 15);
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ff00"; ctx.font = fontSize + "px monospace";
+    for(let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 50);
 
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  const skullElement = document.getElementById('hacker-bg');
+  const asciiArt = `        _,.-------.,_
+    ,;~'             '~;,
+  ,;                     ;,
+ ;                         ;
+,'                         ',
+,;                           ;,
+; ;      .           .      ; ;
+| ;   ______       ______   ; |
+|  \`/~"     ~" . "~     "~\\'  |
+|  ~  ,-~~~^~, | ,~^~~~-,  ~  |
+ |   |        }:{        |   |
+ |   l       / | \\       !   |
+ .~  (__,.--" .^. "--.,__)  ~.
+ |     ---;' / | \\ \`;---     |
+  \\__.       \\/^\\/       .__/
+   V| \`IIII_I_I_I_IIII'|V
+    | |T~\\___!___!___/~T| |
+    | | \`~~~~~~~~~~' | |
+    |  \\,III I I I III,/  |
+     \\   \`~~~~~~~~~~'    /
+       \\   .       .   /
+         \\.    ^    ./
+           ^~~~^~~~^`;
+
+  let charIndex = 0;
+  function drawSkull() {
+    if (charIndex < asciiArt.length) {
+      skullElement.textContent += asciiArt.substring(charIndex, charIndex + 8);
+      charIndex += 8; setTimeout(drawSkull, 10);
+    }
+  }
+  drawSkull();
+
+  // SÖZLÜK VERİSİ VE FONKSİYONLAR
+  const dictionary = [
+    { name: "AES", desc: "Advanced Encryption Standard. Dünya çapında kullanılan en güvenli simetrik şifreleme algoritmasıdır." },
+    { name: "APT", desc: "Advanced Persistent Threat. Belirli bir hedefi uzun süre boyunca gizlice izleyen ve veri çalan gelişmiş tehdit aktörleridir." },
+    { name: "Backdoor", desc: "Arka Kapı. Bir sisteme güvenlik önlemlerini aşarak girmek için bırakılan gizli giriş yollarıdır." },
+    { name: "Blue Team", desc: "Mavi Takım. Bir kurumun dijital varlıklarını savunmakla görevli olan güvenlik ekibidir." },
+    { name: "Red Team", desc: "Kırmızı Takım. Kurumun güvenliğini test etmek için gerçek saldırıları simüle eden saldırı ekibidir." },
+    { name: "Brute Force", desc: "Kaba Kuvvet. Bir şifreyi kırmak için tüm olasılıkları tek tek deneme yöntemidir." },
+    { name: "DDoS", desc: "Distributed Denial of Service. Bir sistemi birden fazla kaynaktan gelen trafikle erişilmez hale getirmektir." },
+    { name: "Exploit", desc: "İstismar Yazılımı. Yazılımdaki bir zafiyeti kullanarak sisteme sızmak için tasarlanmış koddur." },
+    { name: "Firewall", desc: "Güvenlik Duvarı. Ağ trafiğini analiz ederek zararlı paketleri engelleyen sistemdir." },
+    { name: "Hashing", desc: "Karma. Verinin benzersiz bir matematiksel özetini çıkarma işlemidir." },
+    { name: "Keylogger", desc: "Tuş Kaydedici. Klavyede basılan her tuşu gizlice kaydeden casus yazılımdır." },
+    { name: "Phishing", desc: "Oltalama. Kullanıcıları kandırarak şifrelerini çalmak için kullanılan sahte mesajlardır." },
+    { name: "Ransomware", desc: "Fidye Yazılımı. Dosyaları şifreleyip açmak için para talep eden zararlı yazılımdır." },
+    { name: "SQL Injection", desc: "Veritabanı komutları kullanarak web sitelerinin verilerine sızma yöntemidir." },
+    { name: "Zero Day", desc: "Sıfırıncı Gün. Henüz yaması olmayan, bilinmeyen bir sistem açığına yapılan saldırıdır." }
+    // ... Buraya diğer 100 kelimeyi ekleyebilirsin
+  ];
+
+  const listContainer = document.getElementById('dictList');
+  const detailPanel = document.getElementById('detailPanel');
+
+  function displayItems(data) {
+    listContainer.innerHTML = '';
+    data.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'dict-item';
+      div.innerText = item.name;
+      div.onclick = () => {
+        detailPanel.style.display = 'block';
+        document.getElementById('detTitle').innerText = `>_ ${item.name}`;
+        let i = 0;
+        document.getElementById('detDesc').innerText = '';
+        const interval = setInterval(() => {
+          document.getElementById('detDesc').innerText += item.desc.charAt(i++);
+          if(i >= item.desc.length) clearInterval(interval);
+        }, 15);
+      };
+      listContainer.appendChild(div);
+    });
   }
 
-  // ... Geri kalan fonksiyonlar aynı ...
+  function filterDict() {
+    const term = document.getElementById('searchTerm').value.toLowerCase();
+    displayItems(dictionary.filter(x => x.name.toLowerCase().includes(term)));
+  }
+
+  displayItems(dictionary);
 </script>
+</body>
+</html>
