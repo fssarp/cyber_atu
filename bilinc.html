@@ -15,7 +15,7 @@
   canvas#matrix { position: fixed; top: 0; left: 0; z-index: 0; }
   .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 1; }
 
-  /* 2. LAYER 1.5: SİNEMATİK ASCII KURU KAFA & HACKER (image_1.png gibi) */
+  /* 2. LAYER 1.5: SİNEMATİK ASCII KURU KAFA & HACKER */
   #hacker-bg {
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
     z-index: 2; color: rgba(0, 255, 0, 0.28); font-size: 2.2vw; line-height: 1.2;
@@ -37,7 +37,7 @@
   }
   .system-msg { font-size: 0.9rem; color: #00ff00; margin-top: 10px; font-weight: bold; }
 
-  /* 4. PROFESYONEL UYARI KARTLARI GRİD YAPISI (image_5.png gibi) */
+  /* 4. PROFESYONEL UYARI KARTLARI GRİD YAPISI */
   .warning-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 20px; margin-top: 20px;
@@ -56,31 +56,18 @@
   .card-title { font-size: 1.4rem; color: #fff; text-transform: uppercase; font-weight: bold; margin-bottom: 15px; }
   .warning-card:hover .card-title { color: black; }
 
-  /* OKUNAKLI KELİME BOŞLUKLARI - ARTIK BİTİŞİK YAZMAYACAK */
+  /* OKUNAKLI KELİME BOŞLUKLARI */
   .card-desc { 
     font-size: 1rem; 
     line-height: 1.6; 
     color: #00ff00;
     white-space: pre-wrap; /* BOŞLUKLARI KORUYAN KRİTİK STİL */
-    word-spacing: normal;  /* Normal kelime aralığı */
+    word-spacing: normal;  
     letter-spacing: 0.5px;
   }
   .warning-card:hover .card-desc { color: black; }
 
-  /* 5. STRATEJİK YAKLAŞIMLAR (BUTONLAR) */
-  .strategic-section { margin-top: 40px; text-align: left; }
-  .strategic-btn-group { display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
-  
-  .strategic-btn {
-    background: black; color: #00ff00; border: 1px solid #00ff00;
-    padding: 10px 20px; text-decoration: none; cursor: pointer; transition: 0.3s;
-    font-weight: bold; font-family: monospace;
-  }
-  .strategic-btn:hover {
-    background: #00ff00; color: black; box-shadow: 0 0 15px #00ff00;
-  }
-
-  /* 6. ANA DİZİNE DÖN (Verbatim) */
+  /* 5. ANA DİZİNE DÖN BUTONU */
   .back-btn {
     display: inline-block; margin-top: 40px; background: black;
     color: #00ff00; border: 1px solid #00ff00; padding: 12px 30px;
@@ -88,13 +75,6 @@
   }
   .back-btn:hover { background: #00ff00; color: black; box-shadow: 0 0 20px #00ff00; }
   
-  #oyunlar-input {
-    margin-top: 30px; font-size: 1.1rem; color: #fff;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .blinking-cursor { animation: blink 1s infinite; color: #00ff00; }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
   /* Scrollbar Güzelleştirme */
   .container::-webkit-scrollbar { width: 5px; }
   .container::-webkit-scrollbar-thumb { background: #00ff00; border-radius: 10px; }
@@ -111,7 +91,7 @@
     
     <div class="terminal-header">
       _ cyber_atu@root:~/bilinclendirme_modulu_
-      <div class="system-msg">[ SİSTEM: Lütfen bir uyarı kartını veya stratejiyi seçerek detayları inceleyin. ]</div>
+      <div class="system-msg">[ SİSTEM: Lütfen bir uyarı kartını seçerek detayları inceleyin. ]</div>
     </div>
     
     <h3 style="letter-spacing: 2px;">>_ BİLİNÇLENDİRME VE GÜVENLİK REHBERİ _</h3>
@@ -122,7 +102,7 @@
         <div class="card-icon">📧</div>
         <div class="card-title">OLTALAMA (PHISHING)</div>
         <div class="card-desc">
-[1] "Bedava hediye kazandınız", "Hesabınız askıya alındı" gibi aciliyet hissettiren mesajlara karşı kullanıcıyı uyarabiliriz.
+[1] "Bedava hediye kazandınız", "Hesabınız askıya alındı" gibi aciliyet hissettiren mesajlara karşı dikkatli olun.
 [2] Gelen e-postanın gönderici adresini (Örn: g00gle.com) mutlaka kontrol et!
 [3] Şüpheli linklere tıklama!.
         </div>
@@ -163,7 +143,8 @@
         <div class="card-title">YAZILIM GÜNCELLEMELERİ</div>
         <div class="card-desc">
 [1] "Yarın hatırlar" diyerek ertelenen güncellemeler aslında kapatılmamış zırh delikleridir.
-[2] Güncellemeler siber korsanların deldiği açıkları kapatır, [3] Erteleme, zırhını yama..
+[2] Güncellemeler siber korsanların deldiği açıkları kapatır, 
+[3] Erteleme, zırhını yama.
         </div>
       </div>
 
@@ -172,29 +153,15 @@
         <div class="card-title">SOSYAL MÜHENDİSLİK</div>
         <div class="card-desc">
 [1] İnsan psikolojisini kullanarak gizli bilgileri ele geçirme sanatıdır.
-[2] 'Sosyal Mühendislik' kartına tıkla ve taktikleri öğren!
+[2] İnsanlar en kolay hacklenen sistemlerdir.
 [3] [!] DİKKAT: En zayıf halka insandır [!].
         </div>
       </div>
 
     </div>
 
-    <div class="strategic-section">
-      <h3 style="letter-spacing: 2px;">_ STRETEJİK GÜVENLİK YAKLAŞIMLARI</h3>
-      <div class="strategic-btn-group">
-        <a href="#" class="strategic-btn">ÇALIŞAN EĞİTİMİ (TEST)</a>
-        <a href="#" class="strategic-btn">TEHDİT RADARI (İZLEME)</a>
-        <a href="#" class="strategic-btn">GÜVENLİK DENETİMİ (PEN_TEST)</a>
-      </div>
-    </div>
-
     <div style="text-align: center;">
       <a href="index.html" class="back-btn"><< ana_dizine_don</a>
-    </div>
-    
-    <div id="oyunlar-input">
-      <span style="color: #00ff00;">cyber_atu@oyunlar:~$</span>
-      <span class="blinking-cursor">..._</span>
     </div>
 
   </div>
@@ -258,7 +225,6 @@
   window.onload = drawSkull;
 
   // 3. OKUNAKLI YAZIM MOTORU
-  // Kelimelerin bitişik yazma sorununu 'pre-wrap' stiliyle kökten çözdük.
   // Kartlara tıkladığında o siber efekti dökülen animasyon:
   document.querySelectorAll('.warning-card').forEach(card => {
     card.addEventListener('click', function() {
