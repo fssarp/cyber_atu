@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biz Kimiz? | Cyber ATU</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    margin: 0; padding: 0; font-family: monospace;
+    background: black; color: #00ff00; overflow-x: hidden;
+  }
+  canvas#matrix { position: fixed; top: 0; left: 0; z-index: 0; }
+  .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1; }
+
+  .container { position: relative; z-index: 3; margin-top: 80px; max-width: 800px; padding-bottom: 50px; }
+  
+  .terminal-box {
+    background: rgba(0, 0, 0, 0.9); border: 2px solid #00ff00;
+    border-radius: 10px; padding: 40px; box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+    backdrop-filter: blur(5px);
+  }
+
+  .terminal-header {
+    border-bottom: 1px dashed #00ff00; margin-bottom: 25px; padding-bottom: 15px;
+    font-size: 1.5rem; color: #fff; text-shadow: 0 0 10px #00ff00;
+  }
+
+  /* BURASI SENİN YAZI ALANIN */
+  .content-area {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #aaffaa;
+    white-space: pre-wrap; /* Boşlukları ve alt satırları korur */
+  }
+
+  .content-area span.highlight {
+    color: #fff;
+    background-color: #004400;
+    padding: 2px 5px;
+    border-radius: 3px;
+  }
+
+  .back-btn {
+    display: inline-block; margin-top: 40px; background: black;
+    color: #00ff00; border: 1px solid #00ff00; padding: 10px 25px;
+    text-decoration: none; transition: 0.3s; font-weight: bold;
+  }
+  .back-btn:hover { background: #00ff00; color: black; box-shadow: 0 0 15px #00ff00; }
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+<div class="bg-overlay"></div>
+
+<div class="container">
+  <div class="terminal-box">
+    
+    <div class="terminal-header">
+      >_ SİSTEM_SORGUSU: whoami (BİZ KİMİZ?)
+    </div>
+
+    <div class="content-area">
+[BAŞLANGIÇ_KAYDI]
+
+Cyber ATU, siber güvenlik dünyasına hoşgeldiniz...
+
+Hedefimiz, dijital dünyadaki tehditlere karşı 
+
+Bizler, beyaz şapkalı bir ekibiz... (BURAYI KENDİNE GÖRE DOLDUR)
+
+
+[KAYIT_SONU]
+    </div>
+
+    <div style="text-align: center;">
+      <a href="index.html" class="back-btn"><< ANA_SİSTEME_DÖN</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // MATRIX MOTORU
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const letters = "010101010101CYBERATU";
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ff00"; ctx.font = fontSize + "px monospace";
+    for(let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 50);
+</script>
+
+</body>
+</html>
