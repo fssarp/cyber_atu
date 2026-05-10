@@ -3,212 +3,174 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Siber Güvenlik Sitesi | Cyber ATU</title>
+<title>Ana Terminal | Cyber ATU</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
   body {
-    margin: 0;
-    padding: 0;
-    font-family: monospace;
-    background: black;
-    color: #00ff00;
-    overflow-x: hidden;
+    margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace;
+    background: black; color: #00ff00; overflow-x: hidden;
   }
 
-  /* DAKTİLO İMLECİ (CURSOR) EFEKTİ */
-  .typing-cursor::after {
-    content: '█';
-    animation: blink 1s step-start infinite;
-    color: #00ff00;
-    margin-left: 5px;
-  }
-  @keyframes blink { 
-    50% { opacity: 0; } 
+  /* MATRIX ARKA PLAN */
+  canvas#matrix { position: fixed; top: 0; left: 0; z-index: 0; }
+  .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 1; }
+
+  /* HACKER KURU KAFA */
+  #hacker-bg {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    z-index: 2; color: rgba(0, 255, 0, 0.25); font-size: 2.2vw; line-height: 1.2;
+    pointer-events: none; text-shadow: 0 0 10px #00ff00; white-space: pre; text-align: center;
   }
 
-  canvas#matrix {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 0;
-  }
-  section {
-    padding: 100px 20px;
-    min-height: 100vh;
-    position: relative;
-    z-index: 1;
-  }
-  footer {
-    background-color: rgba(0,0,0,0.8);
-    text-align: center;
-    padding: 20px;
-    z-index: 1;
-    position: relative;
-    border-top: 1px solid #004400;
-  }
-  a.instagram-link {
-    color: #00ff00 !important;
-    text-decoration: none;
-  }
-
-  /* BİZİ TANIYIN BUTONU */
-  .header-alani {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    z-index: 999;
-  }
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  .dropbtn {
-    background-color: black;
-    color: #00ff00;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-family: monospace;
-    border: 1px solid #00ff00;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: 0.3s;
-  }
-  .dropbtn:hover {
-    background-color: #00ff00;
-    color: black;
-    box-shadow: 0 0 10px #00ff00;
-  }
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: black;
-    min-width: 160px;
-    border: 1px solid #00ff00;
-    box-shadow: 0px 8px 16px 0px rgba(0,255,0,0.2);
-    z-index: 1;
-    border-radius: 5px;
-  }
-  .dropdown-content a {
-    color: #00ff00;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    transition: 0.2s;
-  }
-  .dropdown-content a:hover {
-    background-color: #00ff00;
-    color: black;
-  }
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-
-  /* TERMİNAL TASARIMI */
+  /* ANA İÇERİK KUTUSU */
+  .container { position: relative; z-index: 3; margin-top: 80px; max-width: 800px; padding-bottom: 50px; }
+  
   .terminal-box {
-    background-color: rgba(0, 0, 0, 0.9);
-    border: 2px solid #00ff00;
-    border-radius: 10px;
-    padding: 25px;
-    max-width: 650px;
-    margin: 10px auto;
-    text-align: left;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+    background: rgba(0, 0, 0, 0.92); border: 2px solid #00ff00;
+    border-radius: 10px; padding: 40px; box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+    backdrop-filter: blur(5px); text-align: left;
   }
+
   .terminal-header {
-    border-bottom: 1px dashed #004400;
-    margin-bottom: 15px;
-    padding-bottom: 5px;
-    color: #00ff00;
-    font-weight: bold;
-    font-size: 0.9rem;
+    border-bottom: 1px dashed #00ff00; margin-bottom: 25px; padding-bottom: 15px;
+    font-size: 1.6rem; color: #fff; text-align: center; text-shadow: 0 0 10px #00ff00;
   }
+
+  .system-msg { font-size: 1rem; color: #aaa; margin-top: 10px; text-align: center; margin-bottom: 30px;}
+
+  /* MENÜ LİSTESİ */
+  .menu-list { display: flex; flex-direction: column; gap: 15px; }
+  
+  .menu-list a {
+    color: #00ff00; text-decoration: none; font-size: 1.3rem;
+    transition: 0.3s; padding: 10px; border: 1px solid transparent;
+  }
+  
+  .menu-list a:hover {
+    background: rgba(0, 255, 0, 0.1); border-color: #00ff00;
+    padding-left: 20px; text-shadow: 0 0 10px #00ff00; font-weight: bold;
+  }
+
+  /* TERMİNAL GİRİŞ ALANI */
   .terminal-input-row {
-    display: flex;
-    align-items: center;
-    margin-top: 25px;
-    border-top: 1px solid #002200;
-    padding-top: 15px;
-  }
-  #terminalInput {
-    background: transparent;
-    border: none;
-    color: #ffffff;
-    font-family: monospace;
-    font-size: 1.2rem;
-    outline: none;
-    flex-grow: 1;
-    text-shadow: 0 0 5px #00ff00;
-    caret-color: #00ff00;
-    margin-left: 10px;
+    display: flex; align-items: center; margin-top: 40px;
+    border-top: 1px solid #004400; padding-top: 20px;
   }
 
-  /* UYARI MESAJI */
-  .system-hint {
-    color: #00ff00;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-    opacity: 0.8;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; text-shadow: 0 0 5px #00ff00; }
-    100% { opacity: 0.5; }
+  #mainInput {
+    background: transparent; border: none; color: #fff; outline: none;
+    flex-grow: 1; margin-left: 10px; font-family: monospace; font-size: 1.2rem;
   }
 
-  /* YUKARI ÇIK BUTONU */
-  #backToTopBtn {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 99;
-    font-size: 18px;
-    border: 1px solid #00ff00;
-    outline: none;
-    background-color: black;
-    color: #00ff00;
-    cursor: pointer;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-family: monospace;
-  }
+  /* Scrollbar Stili */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-thumb { background: #00ff00; border-radius: 10px; }
 </style>
 </head>
 <body>
 
 <canvas id="matrix"></canvas>
+<div class="bg-overlay"></div>
 
-<div class="header-alani">
-  <div class="dropdown">
-    <button class="dropbtn">Bizi Tanıyın ▼</button>
-    <div class="dropdown-content">
-      <a href="#">> Biz Kimiz?</a>
-      <a href="#">> Vizyonumuz</a>
-      <a href="#">> Ekibimiz</a>
+<div id="hacker-bg"></div>
+
+<div class="container">
+  <div class="terminal-box">
+    <div class="terminal-header">
+      >_ CYBER ATU | ANA SİSTEM ARAYÜZÜ
+    </div>
+    <div class="system-msg">[ BAĞLANTI BAŞARILI. LÜTFEN BİR MODÜL SEÇİNİZ ]</div>
+
+    <div class="menu-list">
+      <a href="#">[01] Hakkımızda / Sistem Bilgisi</a>
+      <a href="sozluk.html">[02] Siber Sözlük Merkezi</a>
+      <a href="bilinc.html">[03] Bilinçlendirme ve Güvenlik Rehberi</a>
+      <a href="#">[04] Dijital Ayak İzi Analizi</a>
+      <a href="rank.html">[05] Yarışmalar ve Oyunlar</a>
+    </div>
+
+    <div class="terminal-input-row">
+      <span style="color: #00ff00;">cyber_atu@root:~$</span>
+      <input type="text" id="mainInput" autofocus autocomplete="off">
     </div>
   </div>
 </div>
 
-<section id="ana-sayfa" class="d-flex align-items-center justify-content-center">
-  <div class="container" style="position: relative; z-index: 1; text-align: center;">
-    
-    <div style="background: rgba(0,0,0,0.8); padding: 40px; border: 1px solid #00ff00; border-radius: 15px; box-shadow: 0 0 30px rgba(0,255,0,0.3); display: inline-block; width: 100%; max-width: 850px;">
-      
-      <h1 style="font-size: 2.5rem; text-shadow: 0 0 10px #00ff00; margin-bottom: 10px;">>_ CYBER ATU TERMİNALİ</h1>
-      
-      <div class="system-hint">
-        [ SİSTEM NOTU: Erişmek istediğiniz modülün kodunu (Örn: 6) terminale yazıp ENTER'a basın. ]
-      </div>
+<script>
+  // MATRIX VE KURU KAFA MOTORU
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const letters = "010101010101CYBERATU";
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ff00"; ctx.font = fontSize + "px monospace";
+    for(let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 50);
 
-      <div class="terminal-box">
-        <div class="terminal-header" id="typewriterText"></div>
-        
-        <div style="line-height: 2; font-size: 1.1rem;">
-          <a href="sozluk.html" style="color: #00ff00; text-decoration: none; display: block;" onmouseover="this.style.textShadow='0 0 8px #00ff00'" onmouseout="this.style.textShadow='none'">[01] Siber Sözlük Veritabanı</a>
-          <a href="bilinc.html" style="color: #00ff00; text-decoration: none; display: block;" onmouseover="this.style.textShadow='0 0 8px #00ff00'" onmouseout="this.style.textShadow='none'">[02] Bilinçlendirme Modülü</a>
-          <a href="radar.html" style="color: #00ff00; text-decoration: none; display: block;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#00ff00'">>_ [03] Dijital Ayak İzi Radarı</a>
-          <a href="sifre.html" style="color: #00ff00; text-decoration: none; display: block;" onmouseover="this.style.textShadow='0 0 8px #00ff00'" onmouseout="this.style.textShadow='none'">[04] Şifre Gücü Analizi</a>
-          <a href="radar.html" style="color: #00ff00; text-decoration: none; display: block;" onmouseover="this.style.textShadow='0 0 8px #00ff00'" onmouseout="this.style.textShadow='none'">[05] Şifre Gücü Analizi</a>
-          <a href="sifreleyici.html" style="color: #00ff00; text-decoration: none; display: block;" onmouseover="this.style.textShadow='0 0 8px #00ff00'" onmouseout="this.style.textShadow='none'"></a>
+  const skullElement = document.getElementById('hacker-bg');
+  const asciiArt = `        _,.-------.,_
+    ,;~'             '~;,
+  ,;                     ;,
+ ;                         ;
+,'                         ',
+,;                           ;,
+; ;      .           .      ; ;
+| ;   ______       ______   ; |
+|  \`/~"     ~" . "~     "~\\'  |
+|  ~  ,-~~~^~, | ,~^~~~-,  ~  |
+ |   |        }:{        |   |
+ |   l       / | \\       !   |
+ .~  (__,.--" .^. "--.,__)  ~.
+ |     ---;' / | \\ \`;---     |
+  \\__.       \\/^\\/       .__/
+   V| \`IIII_I_I_I_IIII'|V
+    | |T~\\___!___!___/~T| |
+    | | \`~~~~~~~~~~' | |
+    |  \\,III I I I III,/  |
+     \\   \`~~~~~~~~~~'    /
+       \\   .       .   /
+         \\.    ^    ./
+           ^~~~^~~~^`;
+  let charIndex = 0;
+  function drawSkull() {
+    if (charIndex < asciiArt.length) {
+      skullElement.textContent += asciiArt.substring(charIndex, charIndex + 8);
+      charIndex += 8; setTimeout(drawSkull, 10);
+    }
+  }
+  drawSkull();
+
+  // KLAVYE YÖNLENDİRME MOTORU
+  const input = document.getElementById('mainInput');
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      const val = input.value.trim();
+      if(val === '1' || val === '01') alert("Sistem Bilgisi Yükleniyor...");
+      else if(val === '2' || val === '02') window.location.href = 'sozluk.html';
+      else if(val === '3' || val === '03') window.location.href = 'bilinc.html';
+      else if(val === '4' || val === '04') alert("Dijital Ayak İzi Analizi Yakında...");
+      else if(val === '5' || val === '05') window.location.href = 'rank.html';
+      else alert("[!] HATA: Geçersiz Komut.");
+      input.value = '';
+    }
+  });
+  
+  // Tıklanınca odağı hep terminal girişinde tutar (Tam Hacker Hissiyatı)
+  document.addEventListener('click', (e) => {
+    if(e.target.tagName !== 'INPUT' && e.target.tagName !== 'A') {
+      input.focus();
+    }
+  });
+</script>
+</body>
+</html>
