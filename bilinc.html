@@ -1,16 +1,282 @@
-<div class="terminal-box">
-  <h3>>_ SİBER_GÜVENLİK_REHBERİ</h3>
-  <p style="color: #ff4444;">[!] DİKKAT: En gelişmiş yazılım bile insan hatasını engelleyemez.</p>
-  
-  <div class="warning-card">
-    <h4 style="color: #fff;">1. OLTALAMA (PHISHING)</h4>
-    <p>Hiçbir resmi kurum sizden mesaj yoluyla şifre istemez. Şüpheli linklere tıklamayın!</p>
-  </div>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilinçlendirme Modülü | Cyber ATU</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace;
+    background: black; color: #00ff00; overflow-x: hidden;
+  }
 
-  <div class="warning-card">
-    <h4 style="color: #fff;">2. KAMUYA AÇIK AĞLAR</h4>
-    <p>Dışarıdaki ücretsiz Wi-Fi ağları üzerinden asla finansal işlemlerinizi gerçekleştirmeyin.</p>
-  </div>
+  /* 1. LAYER 0: MATRIX KOD YAĞMURU (YOĞUN) */
+  canvas#matrix { position: fixed; top: 0; left: 0; z-index: 0; }
+  .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 1; }
+
+  /* 2. LAYER 1.5: SİNEMATİK ASCII KURU KAFA & HACKER (image_1.png gibi) */
+  #hacker-bg {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    z-index: 2; color: rgba(0, 255, 0, 0.28); font-size: 2.2vw; line-height: 1.2;
+    pointer-events: none; text-shadow: 0 0 15px #00ff00; white-space: pre; text-align: center;
+  }
+
+  /* 3. LAYER 3: ANA İÇERİK (Terminal Kutusu) */
+  .container { position: relative; z-index: 3; margin-top: 50px; max-width: 1100px; padding-bottom: 50px; }
   
-  <a href="index.html" class="back-btn"><< ana_ekrana_don</a>
+  .terminal-box {
+    background: rgba(0, 0, 0, 0.9); border: 2px solid #00ff00;
+    border-radius: 10px; padding: 30px; box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+    backdrop-filter: blur(5px);
+  }
+
+  .terminal-header {
+    border-bottom: 1px dashed #004400; margin-bottom: 25px; padding-bottom: 15px;
+    font-size: 1rem; color: #aaa; text-align: left;
+  }
+  .system-msg { font-size: 0.9rem; color: #00ff00; margin-top: 10px; font-weight: bold; }
+
+  /* 4. PROFESYONEL UYARI KARTLARI GRİD YAPISI (image_5.png gibi) */
+  .warning-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px; margin-top: 20px;
+  }
+  
+  .warning-card {
+    background: rgba(0, 40, 0, 0.3); border: 2px solid #00ff00;
+    border-radius: 10px; padding: 20px; cursor: pointer; transition: 0.3s;
+    text-align: left; box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+  }
+  .warning-card:hover {
+    background: #00ff00; color: black; box-shadow: 0 0 25px #00ff00; transform: translateY(-5px);
+  }
+
+  .card-icon { font-size: 2.5rem; margin-bottom: 15px; }
+  .card-title { font-size: 1.4rem; color: #fff; text-transform: uppercase; font-weight: bold; margin-bottom: 15px; }
+  .warning-card:hover .card-title { color: black; }
+
+  /* OKUNAKLI KELİME BOŞLUKLARI - ARTIK BİTİŞİK YAZMAYACAK */
+  .card-desc { 
+    font-size: 1rem; 
+    line-height: 1.6; 
+    color: #00ff00;
+    white-space: pre-wrap; /* BOŞLUKLARI KORUYAN KRİTİK STİL */
+    word-spacing: normal;  /* Normal kelime aralığı */
+    letter-spacing: 0.5px;
+  }
+  .warning-card:hover .card-desc { color: black; }
+
+  /* 5. STRATEJİK YAKLAŞIMLAR (BUTONLAR) */
+  .strategic-section { margin-top: 40px; text-align: left; }
+  .strategic-btn-group { display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
+  
+  .strategic-btn {
+    background: black; color: #00ff00; border: 1px solid #00ff00;
+    padding: 10px 20px; text-decoration: none; cursor: pointer; transition: 0.3s;
+    font-weight: bold; font-family: monospace;
+  }
+  .strategic-btn:hover {
+    background: #00ff00; color: black; box-shadow: 0 0 15px #00ff00;
+  }
+
+  /* 6. ANA DİZİNE DÖN (Verbatim) */
+  .back-btn {
+    display: inline-block; margin-top: 40px; background: black;
+    color: #00ff00; border: 1px solid #00ff00; padding: 12px 30px;
+    text-decoration: none; transition: 0.3s; font-weight: bold; text-align: center;
+  }
+  .back-btn:hover { background: #00ff00; color: black; box-shadow: 0 0 20px #00ff00; }
+  
+  #oyunlar-input {
+    margin-top: 30px; font-size: 1.1rem; color: #fff;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .blinking-cursor { animation: blink 1s infinite; color: #00ff00; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* Scrollbar Güzelleştirme */
+  .container::-webkit-scrollbar { width: 5px; }
+  .container::-webkit-scrollbar-thumb { background: #00ff00; border-radius: 10px; }
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+<div class="bg-overlay"></div>
+<div id="hacker-bg"></div>
+
+<div class="container">
+  <div class="terminal-box">
+    
+    <div class="terminal-header">
+      _ cyber_atu@root:~/bilinclendirme_modulu_
+      <div class="system-msg">[ SİSTEM: Lütfen bir uyarı kartını veya stratejiyi seçerek detayları inceleyin. ]</div>
+    </div>
+    
+    <h3 style="letter-spacing: 2px;">>_ BİLİNÇLENDİRME VE GÜVENLİK REHBERİ _</h3>
+    
+    <div class="warning-grid">
+      
+      <div class="warning-card">
+        <div class="card-icon">📧</div>
+        <div class="card-title">OLTALAMA (PHISHING)</div>
+        <div class="card-desc">
+[1] "Bedava hediye kazandınız", "Hesabınız askıya alındı" gibi aciliyet hissettiren mesajlara karşı kullanıcıyı uyarabiliriz.
+[2] Gelen e-postanın gönderici adresini (Örn: g00gle.com) mutlaka kontrol et!
+[3] Şüpheli linklere tıklama!.
+        </div>
+      </div>
+
+      <div class="warning-card">
+        <div class="card-icon">🔐</div>
+        <div class="card-title">PAROLA GÜVENLİĞİ VE HİJYENİ</div>
+        <div class="card-desc">
+[1] "123456" veya "dogumtarihi" kullanma.
+[2] Şifre yerine Karmaşık ama hatırlaması kolay "parola cümleleri" oluştur (Örn: Siber_ATU_2026!).
+[3] Tüm hesaplarda farklı şifreler kullan.
+        </div>
+      </div>
+
+      <div class="warning-card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-title">İKİ AŞAMALI DOĞRULAMA (2FA)</div>
+        <div class="card-desc">
+[1] Şifren çalınsa bile telefonuna gelen onay kodu olmadan kimse giremez.
+[2] Bu senin dijital zırhındır, kaleyi korur.
+[3] Güvenliği %99 artırır, mutlaka etkinleştir.
+        </div>
+      </div>
+
+      <div class="warning-card">
+        <div class="card-icon">📶</div>
+        <div class="card-title">HALKA AÇIK WI-FI TEHLİKESİ</div>
+        <div class="card-desc">
+[1] Kafelerdeki şifresiz internetlerin birer "dinleme cihazı" olabileceğini unutma.
+[2] Ortak Wi-Fi ağlarında asla bankacılık işlemi yapma.
+[3] Eğer yapmak zorundaysan mutlaka bir **VPN** kullan.
+        </div>
+      </div>
+
+      <div class="warning-card">
+        <div class="card-icon">⚙️</div>
+        <div class="card-title">YAZILIM GÜNCELLEMELERİ</div>
+        <div class="card-desc">
+[1] "Yarın hatırlar" diyerek ertelenen güncellemeler aslında kapatılmamış zırh delikleridir.
+[2] Güncellemeler siber korsanların deldiği açıkları kapatır, [3] Erteleme, zırhını yama..
+        </div>
+      </div>
+
+      <div class="warning-card">
+        <div class="card-icon">👥</div>
+        <div class="card-title">SOSYAL MÜHENDİSLİK</div>
+        <div class="card-desc">
+[1] İnsan psikolojisini kullanarak gizli bilgileri ele geçirme sanatıdır.
+[2] 'Sosyal Mühendislik' kartına tıkla ve taktikleri öğren!
+[3] [!] DİKKAT: En zayıf halka insandır [!].
+        </div>
+      </div>
+
+    </div>
+
+    <div class="strategic-section">
+      <h3 style="letter-spacing: 2px;">_ STRETEJİK GÜVENLİK YAKLAŞIMLARI</h3>
+      <div class="strategic-btn-group">
+        <a href="#" class="strategic-btn">ÇALIŞAN EĞİTİMİ (TEST)</a>
+        <a href="#" class="strategic-btn">TEHDİT RADARI (İZLEME)</a>
+        <a href="#" class="strategic-btn">GÜVENLİK DENETİMİ (PEN_TEST)</a>
+      </div>
+    </div>
+
+    <div style="text-align: center;">
+      <a href="index.html" class="back-btn"><< ana_dizine_don</a>
+    </div>
+    
+    <div id="oyunlar-input">
+      <span style="color: #00ff00;">cyber_atu@oyunlar:~$</span>
+      <span class="blinking-cursor">..._</span>
+    </div>
+
+  </div>
 </div>
+
+<script>
+  // 1. LAYER 0: MATRIX KOD MOTORU
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const letters = "010101010101CYBERATU";
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ff00"; ctx.font = fontSize + "px monospace";
+    for(let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 50);
+
+  // 2. LAYER 1.5: SİNEMATİK ASCII KURU KAFA & HACKER
+  const skullElement = document.getElementById('hacker-bg');
+  const asciiArt = `        _,.-------.,_
+    ,;~'             '~;,
+  ,;                     ;,
+ ;                         ;
+,'                         ',
+,;                           ;,
+; ;      .           .      ; ;
+| ;   ______       ______   ; |
+|  \`/~"     ~" . "~     "~\\'  |
+|  ~  ,-~~~^~, | ,~^~~~-,  ~  |
+ |   |        }:{        |   |
+ |   l       / | \\       !   |
+ .~  (__,.--" .^. "--.,__)  ~.
+ |     ---;' / | \\ \`;---     |
+  \\__.       \\/^\\/       .__/
+   V| \`IIII_I_I_I_IIII'|V
+    | |T~\\___!___!___/~T| |
+    | | \`~~~~~~~~~~' | |
+    |  \\,III I I I III,/  |
+     \\   \`~~~~~~~~~~'    /
+       \\   .       .   /
+         \\.    ^    ./
+           ^~~~^~~~^`;
+  let charIndex = 0;
+  function drawSkull() {
+    if (charIndex < asciiArt.length) {
+      skullElement.textContent += asciiArt.substring(charIndex, charIndex + 8);
+      charIndex += 8; setTimeout(drawSkull, 10);
+    }
+  }
+  // Sayfa yüklendiğinde kuru kafayı çizmeye başla
+  window.onload = drawSkull;
+
+  // 3. OKUNAKLI YAZIM MOTORU
+  // Kelimelerin bitişik yazma sorununu 'pre-wrap' stiliyle kökten çözdük.
+  // Kartlara tıkladığında o siber efekti dökülen animasyon:
+  document.querySelectorAll('.warning-card').forEach(card => {
+    card.addEventListener('click', function() {
+      const descEl = this.querySelector('.card-desc');
+      const fullText = descEl.textContent.trim();
+      descEl.textContent = ''; // Temizle
+      
+      let i = 0;
+      if(window.typeInterval) clearInterval(window.typeInterval);
+      
+      // Siber harf dökme efekti (Boşlukları korur)
+      window.typeInterval = setInterval(() => {
+        descEl.textContent += fullText.charAt(i);
+        i++;
+        if(i >= fullText.length) clearInterval(window.typeInterval);
+      }, 12);
+    });
+  });
+</script>
+</body>
+</html>
