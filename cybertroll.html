@@ -64,7 +64,7 @@
   
   <p style="font-size: 1.1rem;">Siber güvenlikte en zayıf halka her zaman insandır.</p>
   
-  <div class="timer-text">Güvenli alana yönlendiriliyorsunuz... (<span id="countdown">5</span>)</div>
+  <div class="timer-text">Güvenli alana yönlendiriliyorsunuz... (<span id="countdown">3.5</span>)</div>
   <button class="btn" onclick="yonlendir()">Hemen Geç</button>
 </div>
 
@@ -79,7 +79,7 @@
   const drops = Array(Math.floor(columns)).fill(1);
   function drawMatrix() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ff0000"; // Matrisi bu sefer Kırmızı yaptık!
+    ctx.fillStyle = "#ff0000"; 
     ctx.font = fontSize + "px monospace";
     for(let i = 0; i < drops.length; i++) {
       const text = letters[Math.floor(Math.random() * letters.length)];
@@ -90,23 +90,26 @@
   }
   setInterval(drawMatrix, 50);
 
-  // OTOMATİK YÖNLENDİRME VE GERİ SAYIM MOTORU
-  let seconds = 5;
+  // 3.5 SANİYELİK HIZLI GERİ SAYIM MOTORU
+  let seconds = 3.5;
   const timerElement = document.getElementById('countdown');
   
   function yonlendir() {
-    // Bilinçlendirme sayfasına gönderir
     window.location.href = 'bilinc.html';
   }
 
+  // Her 0.5 saniyede bir sayacı günceller
   const countdownInterval = setInterval(() => {
-    seconds--;
-    timerElement.innerText = seconds;
+    seconds -= 0.5;
+    
+    // Ekrana 3.0, 2.5 gibi ondalıklı formatta yazdırır
+    timerElement.innerText = seconds.toFixed(1); 
+    
     if (seconds <= 0) {
       clearInterval(countdownInterval);
       yonlendir();
     }
-  }, 1000);
+  }, 500); // 500 milisaniye = 0.5 saniye
 </script>
 </body>
 </html>
