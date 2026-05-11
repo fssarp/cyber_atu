@@ -29,17 +29,18 @@
     100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
   }
 
- /* KEDİ RESMİ - GÜNCELLENMİŞ (NETLEŞTİRİCİ EKLEME) */
+  /* KEDİ RESMİ - GÜNCELLENMİŞ (NETLEŞTİRİCİ EKLEME VE YENİ İSİM) */
   .cat-image {
     width: 100%; max-height: 250px; object-fit: cover;
     border-radius: 5px; border: 2px dashed #ff0000;
     margin-bottom: 15px;
 
     /* ---> SİBER NUMARA BURADA <--- */
-    /* Tarayıcının büyütürken yumuşatmasını engeller, pikseleri sert ve net bırakır. */
+    /* Tarayıcının büyütürken yumuşatmasını engeller, pikseleri sert ve retro netlikte bırakır. */
     image-rendering: pixelated; 
     /* Alternatif (Eskiler için): image-rendering: crisp-edges; */
   }
+
   /* HACKLENDİNİZ BAŞLIĞI */
   .alert-box h1 {
     color: #ff0000; font-size: 2.8rem; margin-top: 0; margin-bottom: 10px;
@@ -52,7 +53,7 @@
   .warnings-container {
     opacity: 0; 
     animation: fadeIn 0.5s ease-in forwards;
-    animation-delay: 1s; 
+    animation-delay: 1s; /* Kedi şokundan 1 saniye sonra yazılar gelir */
   }
 
   @keyframes fadeIn {
@@ -66,7 +67,7 @@
 
   .timer-text { color: #aaa; font-size: 1rem; margin-top: 15px; }
 
-  /* KAYDIRMALI BUTON (Faresi gizli değil artık) */
+  /* KAYDIRMALI, TIKLANAMAYAN BUTON */
   .tuzak-btn {
     background: #ff0000; color: #fff; border: 1px solid #ff0000;
     padding: 12px 25px; font-size: 1.1rem; cursor: pointer; 
@@ -80,7 +81,7 @@
 <canvas id="matrix"></canvas>
 
 <div class="alert-box" id="alertBox">
-  <img src="trol_kedi.jpeg" onerror="this.onerror=null; this.src='trol_kedi.jpg';" alt="Bağıran Kedi" class="cat-image">
+  <img src="troll_kedi2.jpg" onerror="this.onerror=null; this.src='trol_kedi.jpeg';" alt="Bağıran Kedi" class="cat-image">
   
   <h1>>_ HACKLENDİNİZ!</h1>
   
@@ -126,7 +127,7 @@
     window.location.href = 'bilinc.html';
   }
 
-  // 5 SANİYELİK GERİ SAYIM
+  // 5 SANİYELİK GERİ SAYIM (Sayfa açıldığı an başlar)
   let seconds = 5.0;
   const countdownInterval = setInterval(() => {
     seconds -= 0.1; 
