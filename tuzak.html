@@ -29,16 +29,14 @@
     100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
   }
 
-  /* KEDİ RESMİ - GÜNCELLENMİŞ (NETLEŞTİRİCİ EKLEME VE YENİ İSİM) */
+  /* KEDİ RESMİ - GÜNCELLENMİŞ (DAHA BÜYÜK VE KESİLMEZ) */
   .cat-image {
-    width: 100%; max-height: 250px; object-fit: cover;
+    width: 100%; 
+    max-height: 350px; /* Boyutu büyütüldü (Eskiden 250px idi) */
+    object-fit: contain; /* Resmin kulaklarını ve altını kesmesini engeller, kutuya tam sığdırır */
     border-radius: 5px; border: 2px dashed #ff0000;
     margin-bottom: 15px;
-
-    /* ---> SİBER NUMARA BURADA <--- */
-    /* Tarayıcının büyütürken yumuşatmasını engeller, pikseleri sert ve retro netlikte bırakır. */
     image-rendering: pixelated; 
-    /* Alternatif (Eskiler için): image-rendering: crisp-edges; */
   }
 
   /* HACKLENDİNİZ BAŞLIĞI */
@@ -53,7 +51,7 @@
   .warnings-container {
     opacity: 0; 
     animation: fadeIn 0.5s ease-in forwards;
-    animation-delay: 1s; /* Kedi şokundan 1 saniye sonra yazılar gelir */
+    animation-delay: 1s; 
   }
 
   @keyframes fadeIn {
@@ -127,7 +125,7 @@
     window.location.href = 'bilinc.html';
   }
 
-  // 5 SANİYELİK GERİ SAYIM (Sayfa açıldığı an başlar)
+  // 5 SANİYELİK GERİ SAYIM
   let seconds = 5.0;
   const countdownInterval = setInterval(() => {
     seconds -= 0.1; 
