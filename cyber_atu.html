@@ -2,24 +2,33 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KRİTİK UYARI | Cyber ATU</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>SİSTEM KRİTİK UYARI | Cyber ATU</title>
 <style>
   body {
     margin: 0; padding: 0; font-family: monospace;
     background: black; overflow: hidden;
+    cursor: none; /* Mouse imlecini gizler */
   }
   
-  /* MATRIX ARKA PLAN */
-  canvas#matrix { position: fixed; top: 0; left: 0; z-index: 0; opacity: 0.5; }
+  /* MATRIX ARKA PLAN (ARKADA KALACAK) */
+  canvas#matrix { position: fixed; top: 0; left: 0; z-index: 0; opacity: 0.2; }
   
-  /* HACKLENDİNİZ MESAJ KUTUSU (MODAL) */
+  /* GÖRVİZÜSÜ: BAĞIRAN KEDİ RESMİ (İLK BU AÇILACAK) */
+  #kedi-resmi {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 1; /* Diğer her şeyden önce bu */
+  }
+
+  /* HACKLENDİNİZ KUTUSU ( Kedinin üzerine fırlayacak ) */
   .alert-box {
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
     background: rgba(20, 0, 0, 0.95); border: 3px solid #ff0000;
     box-shadow: 0 0 50px rgba(255, 0, 0, 0.8); border-radius: 10px;
-    padding: 40px; text-align: center; z-index: 10; width: 85%; max-width: 500px;
-    animation: popIn 0.5s ease-out forwards;
+    padding: 30px; text-align: center; z-index: 10; width: 85%; max-width: 500px;
+    display: none; /* İlk başta gizli */
+    animation: popIn 0.3s ease-out forwards;
+    backdrop-filter: blur(5px);
   }
 
   @keyframes popIn {
@@ -29,43 +38,45 @@
   }
 
   .alert-box h1 {
-    color: #ff0000; font-size: 3rem; margin-top: 0;
+    color: #ff0000; font-size: 2.8rem; margin-top: 0;
     text-shadow: 0 0 15px #ff0000; animation: blink 1s infinite;
   }
 
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-  .alert-box p { color: #fff; font-size: 1.3rem; line-height: 1.6; }
-  
   .highlight {
-    color: #00ff00; font-size: 1.5rem; font-weight: bold;
-    display: block; margin: 20px 0; text-shadow: 0 0 10px #00ff00;
+    color: #00ff00; font-size: 1.4rem; font-weight: bold;
+    display: block; margin: 15px 0; text-shadow: 0 0 10px #00ff00;
   }
 
-  .timer-text { color: #aaa; font-size: 1rem; margin-top: 20px; }
+  .timer-text { color: #aaa; font-size: 1rem; margin-top: 15px; }
 
-  .btn {
+  /* KAYDIRMALI, TIKLANAMAYAN BUTON */
+  .tuzak-btn {
     background: #ff0000; color: #fff; border: 1px solid #ff0000;
-    padding: 10px 20px; font-size: 1.1rem; cursor: pointer;
-    font-family: monospace; font-weight: bold; transition: 0.3s; margin-top: 15px;
+    padding: 10px 20px; font-size: 1.1rem; cursor: none; /* İmleci burada da gizle */
+    font-family: monospace; font-weight: bold; transition: 0.1s linear; /* Hızlı kaçsın */
+    margin-top: 15px; border-radius: 5px;
+    position: relative; /* JavaScript ile kaydırmak için */
   }
-  .btn:hover { background: transparent; color: #ff0000; box-shadow: 0 0 15px #ff0000; }
 </style>
 </head>
-<body>
+<body onclick="tamEkranDene()">
 
 <canvas id="matrix"></canvas>
 
-<div class="alert-box">
+<img src="https://i.ibb.co/XSkw0kF/screaming-cat.jpg" alt="Bağıran Kedi" id="kedi-resmi">
+
+<div class="alert-box" id="alertBox">
   <h1>>_ HACKLENDİNİZ!</h1>
-  <p>Cihazınızdaki güvenlik protokolleri aşıldı...</p>
+  <p style="color:#fff;">Cihazınızdaki güvenlik protokolleri aşıldı...</p>
   
+  <p style="color:#fff;">Yönlendiriliyorsunuz...</p>
   <span class="highlight">"Her gördüğünüz QR kodu okutmayınız :)"</span>
   
-  <p style="font-size: 1.1rem;">Siber güvenlikte en zayıf halka her zaman insandır.</p>
+  <div class="timer-text">Bilinçlendirme alanına yönlendiriliyorsunuz... (<span id="countdown">3.5</span>)</div>
   
-  <div class="timer-text">Güvenli alana yönlendiriliyorsunuz... (<span id="countdown">5</span>)</div>
-  <button class="btn" onclick="yonlendir()">Hemen Geç</button>
+  <button class="tuzak-btn" id="kacanBtn" onmouseover="btnKactir()" ontouchstart="btnKactir()">Hemen Geç</button>
 </div>
 
 <script>
@@ -79,7 +90,7 @@
   const drops = Array(Math.floor(columns)).fill(1);
   function drawMatrix() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ff0000"; // Matrisi bu sefer Kırmızı yaptık!
+    ctx.fillStyle = "#ff0000"; 
     ctx.font = fontSize + "px monospace";
     for(let i = 0; i < drops.length; i++) {
       const text = letters[Math.floor(Math.random() * letters.length)];
@@ -90,23 +101,59 @@
   }
   setInterval(drawMatrix, 50);
 
-  // OTOMATİK YÖNLENDİRME VE GERİ SAYIM MOTORU
-  let seconds = 5;
+  // --- SİBER SENARYO MOTORU ---
+  
+  const kediResmi = document.getElementById('kedi-resmi');
+  const alertBox = document.getElementById('alertBox');
   const timerElement = document.getElementById('countdown');
+  const kacanBtn = document.getElementById('kacanBtn');
   
   function yonlendir() {
-    // Bilinçlendirme sayfasına gönderir
     window.location.href = 'bilinc.html';
   }
 
-  const countdownInterval = setInterval(() => {
-    seconds--;
-    timerElement.innerText = seconds;
-    if (seconds <= 0) {
-      clearInterval(countdownInterval);
-      yonlendir();
+  // 1. ADIM: 0.5 saniye sonra resmi gizle, hacklendiniz kutusunu aç
+  setTimeout(() => {
+    kediResmi.style.display = 'none';
+    alertBox.style.display = 'block';
+    startCountdown();
+  }, 500);
+
+  // 3.5 SANİYELİK HIZLI GERİ SAYIM MOTORU
+  function startCountdown() {
+    let seconds = 3.5;
+    const countdownInterval = setInterval(() => {
+      seconds -= 0.5;
+      timerElement.innerText = seconds.toFixed(1); 
+      if (seconds <= 0) {
+        clearInterval(countdownInterval);
+        yonlendir();
+      }
+    }, 500); 
+  }
+
+  // --- TIKLANAMAYAN, KAÇAN BUTON MOTORU ---
+  
+  function btnKactir() {
+    // Kurban tam butona tıklar gibi olduğunda (hover veya touchstart), rastgele bir yere ışınla.
+    const newTop = Math.random() * (alertBox.offsetHeight - 50);
+    const newLeft = Math.random() * (alertBox.offsetWidth - 100);
+    
+    kacanBtn.style.top = newTop + "px";
+    kacanBtn.style.left = newLeft + "px";
+  }
+  
+  // Tam Ekran Tuzağı: Kurban ekrana dokunduğu an (veya butona basmaya çalışınca) tam ekran moduna al.
+  function tamEkranDene() {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+      document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari
+      document.documentElement.webkitRequestFullscreen();
     }
-  }, 1000);
+  }
+
 </script>
 </body>
 </html>
