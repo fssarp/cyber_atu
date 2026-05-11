@@ -52,19 +52,19 @@
     position: absolute; 
     top: 20px;
     left: 30px;
-    width: 100px; /* Logonun büyüklüğü */
+    width: 100px;
     height: auto;
-    z-index: 1000; /* Matrix'in ve diğer her şeyin üstünde */
+    z-index: 1000;
     transition: 0.3s;
     cursor: pointer;
   }
   
   .site-logo:hover {
-    filter: drop-shadow(0 0 15px #00ff00); /* Üzerine gelince neon yeşil parlama */
-    transform: scale(1.05); /* Üzerine gelince hafif büyür */
+    filter: drop-shadow(0 0 15px #00ff00);
+    transform: scale(1.05);
   }
 
-  /* --- BİZİ TANIYIN BUTONU (SİBER TEMA) İÇİN EKLENEN CSS --- */
+  /* --- BİZİ TANIYIN BUTONU --- */
   .header-alani {
     position: absolute; 
     top: 20px;
@@ -174,8 +174,18 @@
         <p id="terminalError" style="color: #ff0000; margin-top: 10px; display: none; font-size: 1rem; text-shadow: 0 0 5px #ff0000;">
           >_ ERİŞİM REDDEDİLDİ: Geçersiz komut. Sadece 1-6 arası bir değer girin.
         </p>
-
       </div>
+
+      <div style="text-align: center; margin-top: 30px; padding: 20px; border: 1px dashed #00ff00; background: rgba(0, 30, 0, 0.4); border-radius: 5px;">
+        <h4 style="color: #fff; text-shadow: 0 0 10px #00ff00; margin-bottom: 10px; font-size: 1.2rem;">>_ GİZLİ PROTOKOL ERİŞİMİ</h4>
+        <p style="color: #aaffaa; font-size: 1rem; margin-bottom: 15px;">
+          Sistemdeki gizli yetkici (root) dosyalarına erişmek için aşağıdaki güvenlik barkodunu telefonunuzun kamerasıyla okutun.
+        </p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Siber%20ATU%20Uyarısı:%20Her%20gördüğünüz%20QR%20kodu%20okutmayınız!%20:)%20En%20zayıf%20halka%20insandır." 
+             alt="Gizli QR Kod" 
+             style="border: 2px solid #00ff00; border-radius: 5px; box-shadow: 0 0 15px #00ff00; padding: 5px; background: white; cursor: crosshair;">
+      </div>
+
     </div>
   </div>
 </section>
