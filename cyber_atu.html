@@ -8,7 +8,6 @@
   body {
     margin: 0; padding: 0; font-family: monospace;
     background: black; overflow: hidden;
-    cursor: none; /* Fare imlecini gizleyip panik yaratır */
   }
   
   /* MATRIX ARKA PLAN */
@@ -49,7 +48,7 @@
   .warnings-container {
     opacity: 0; 
     animation: fadeIn 0.5s ease-in forwards;
-    animation-delay: 1s; /* Kedi şokundan 1 saniye sonra yazılar gelir */
+    animation-delay: 1s; 
   }
 
   @keyframes fadeIn {
@@ -63,10 +62,10 @@
 
   .timer-text { color: #aaa; font-size: 1rem; margin-top: 15px; }
 
-  /* KAYDIRMALI, TIKLANAMAYAN BUTON */
+  /* KAYDIRMALI BUTON (Faresi gizli değil artık) */
   .tuzak-btn {
     background: #ff0000; color: #fff; border: 1px solid #ff0000;
-    padding: 12px 25px; font-size: 1.1rem; cursor: none; 
+    padding: 12px 25px; font-size: 1.1rem; cursor: pointer; 
     font-family: monospace; font-weight: bold; transition: top 0.1s, left 0.1s; 
     margin-top: 15px; border-radius: 5px; box-shadow: 0 0 10px #ff0000;
   }
@@ -77,7 +76,7 @@
 <canvas id="matrix"></canvas>
 
 <div class="alert-box" id="alertBox">
-  <img src="trol_kedi.jpg" onerror="this.onerror=null; this.src='trol_kedi.jpeg';" alt="Bağıran Kedi" class="cat-image">
+  <img src="trol_kedi.jpeg" onerror="this.onerror=null; this.src='trol_kedi.jpg';" alt="Bağıran Kedi" class="cat-image">
   
   <h1>>_ HACKLENDİNİZ!</h1>
   
@@ -123,10 +122,10 @@
     window.location.href = 'bilinc.html';
   }
 
-  // 5 SANİYELİK GERİ SAYIM (Sayfa açıldığı an başlar)
+  // 5 SANİYELİK GERİ SAYIM
   let seconds = 5.0;
   const countdownInterval = setInterval(() => {
-    seconds -= 0.1; // Saniyenin onda biri hızında akar
+    seconds -= 0.1; 
     timerElement.innerText = Math.max(0, seconds).toFixed(1); 
     
     if (seconds <= 0) {
@@ -135,12 +134,10 @@
     }
   }, 100); 
 
-  // --- TIKLANAMAYAN, KAÇAN BUTON MOTORU ---
+  // --- KAÇAN BUTON MOTORU ---
   function btnKactir() {
-    // Butonu kutunun içinden koparıp tüm ekranda özgür bırakıyoruz
     kacanBtn.style.position = 'fixed';
     
-    // Ekranın herhangi bir yerine rastgele ışınla
     const newTop = Math.random() * (window.innerHeight - 50);
     const newLeft = Math.random() * (window.innerWidth - 150);
     
@@ -148,7 +145,7 @@
     kacanBtn.style.left = newLeft + "px";
   }
   
-  // Tam Ekran Tuzağı: Ekrana tıklandığında tam ekrana zorla
+  // Tam Ekran Tuzağı
   function tamEkranDene() {
     if (document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen();
