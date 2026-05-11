@@ -45,7 +45,7 @@
 
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-  /* UYARILAR */
+  /* GECİKMELİ GELEN UYARILAR */
   .warnings-container {
     opacity: 0; 
     animation: fadeIn 0.5s ease-in forwards;
@@ -94,7 +94,7 @@
 </div>
 
 <script>
-  // MATRIX EFEKTİ (KIRMIZI)
+  // MATRIX EFEKTİ
   const canvas = document.getElementById('matrix');
   const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -102,7 +102,6 @@
   const fontSize = 16;
   const columns = canvas.width / fontSize;
   const drops = Array(Math.floor(columns)).fill(1);
-  
   function drawMatrix() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#ff0000"; 
