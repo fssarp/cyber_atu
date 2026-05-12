@@ -60,12 +60,12 @@
   }
   .site-logo:hover { filter: drop-shadow(0 0 15px #00ff00); transform: scale(1.05); }
 
-  /* --- EKİP KARTLARI (GRID SİSTEMİ) --- */
+  /* --- EKİP KARTLARI (SADECE RESİM İÇİN DÜZENLENDİ) --- */
   .team-container {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 30px;
     padding: 20px;
   }
@@ -74,12 +74,15 @@
     background: rgba(0, 20, 0, 0.8);
     border: 1px solid #00ff00;
     border-radius: 10px;
-    padding: 20px;
+    padding: 30px 20px;
     text-align: center;
     box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
     transition: 0.4s;
     position: relative;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .team-card:hover {
@@ -89,37 +92,21 @@
   }
 
   .team-card img {
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 180px;
     object-fit: cover;
     border-radius: 50%;
     border: 3px dashed #00ff00;
-    margin-bottom: 15px;
     transition: 0.4s;
-    filter: grayscale(100%); /* Başlangıçta siyah beyaz cyber efekt */
+    filter: grayscale(100%); 
   }
 
   .team-card:hover img {
-    filter: grayscale(0%); /* Üzerine gelince renklenir */
+    filter: grayscale(0%); 
     border: 3px solid #fff;
-    box-shadow: 0 0 15px #00ff00;
+    box-shadow: 0 0 20px #00ff00;
   }
 
-  .team-name {
-    color: #fff;
-    font-size: 1.3rem;
-    margin-bottom: 5px;
-    text-shadow: 0 0 5px #00ff00;
-  }
-
-  .team-role {
-    color: #00ff00;
-    font-size: 0.9rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-
-  /* Alt taraftaki küçük yeşil terminal çizgisi */
   .team-card::after {
     content: "";
     position: absolute;
@@ -185,59 +172,17 @@
     
     <div class="team-container">
       
-      <div class="team-card">
-        <img src="1.jpg" alt="Ekip Üyesi">
-        <div class="team-name">>_ İSİM SOYİSİM 1</div>
-        <div class="team-role">Topluluk Başkanı</div>
-      </div>
-
-      <div class="team-card">
-        <img src="2.jpg" alt="Ekip Üyesi">
-        <div class="team-name">>_ İSİM SOYİSİM 2</div>
-        <div class="team-role">Sızma Testi (Pentester) Uzmanı</div>
-      </div>
-
-      <div class="team-card">
-        <img src="3.jpg" alt="Ekip Üyesi">
-        <div class="team-name">>_ İSİM SOYİSİM 3</div>
-        <div class="team-role">Ağ Güvenliği Uzmanı</div>
-      </div>
-
-      <div class="team-card">
-        <img src="4.jpg" alt="Ekip Üyesi">
-        <div class="team-name">>_ İSİM SOYİSİM 4</div>
-        <div class="team-role">Zararlı Yazılım Analisti</div>
-      </div>
-
-      <div class="team-card">
-        <img src="5.jpg" alt="Ekip Üyesi">
-        <div class="team-name">>_ İSİM SOYİSİM 5</div>
-        <div class="team-role">Sosyal Mühendislik Uzmanı</div>
-      </div>
-
-      <div class="team-card">
-        <img src="6.jpg" alt="Ekip Üyesi">
-        <div class="team-name">>_ İSİM SOYİSİM 6</div>
-        <div class="team-role">Kriptografi Uzmanı</div>
-      </div>
-
-      <div class="team-card">
-        <img src="7.jpg" alt="Ekip Üyesi">
-        <div class="team-name">>_ İSİM SOYİSİM 7</div>
-        <div class="team-role">OSINT Araştırmacısı</div>
-      </div>
-
-      <div class="team-card">
-        <img src="8.jpg" alt="Ekip Üyesi">
-        <div class="team-name">>_ İSİM SOYİSİM 8</div>
-        <div class="team-role">Siber İstihbarat Analisti</div>
-      </div>
-
-      <div class="team-card">
-        <img src="9.jpg" alt="Ekip Üyesi">
-        <div class="team-name">>_ İSİM SOYİSİM 9</div>
-        <div class="team-role">Web Güvenliği Uzmanı</div>
-      </div>
+      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.15.jpeg" alt="Ekip Üyesi"></div>
+      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.16.jpeg" alt="Ekip Üyesi"></div>
+      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.21 (1).jpeg" alt="Ekip Üyesi"></div>
+      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.21 (2).jpeg" alt="Ekip Üyesi"></div>
+      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.21.jpeg" alt="Ekip Üyesi"></div>
+      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.22 (1).jpeg" alt="Ekip Üyesi"></div>
+      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.22.jpeg" alt="Ekip Üyesi"></div>
+      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.55.22.jpeg" alt="Ekip Üyesi"></div>
+      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.55.54.jpeg" alt="Ekip Üyesi"></div>
+      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.59.08.jpeg" alt="Ekip Üyesi"></div>
+      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.59.10.jpeg" alt="Ekip Üyesi"></div>
 
     </div>
 
