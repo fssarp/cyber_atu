@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ekibimiz | Cyber ATU</title>
+<title>Etkinliklerimiz | Cyber ATU</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
   body {
@@ -28,7 +28,7 @@
     z-index: 1;
   }
   
-  /* --- BİZİ TANIYIN MENÜSÜ --- */
+  /* --- ÜST MENÜ --- */
   .header-alani {
     position: absolute; 
     top: 20px;
@@ -53,83 +53,66 @@
   .dropdown-content a:hover { background-color: #00ff00; color: black; }
   .dropdown:hover .dropdown-content { display: block; }
 
-  /* --- SİTE LOGOSU --- */
+  /* --- LOGO --- */
   .site-logo {
     position: absolute; top: 20px; left: 30px; width: 100px; height: auto;
     z-index: 1000; transition: 0.3s; cursor: pointer;
   }
   .site-logo:hover { filter: drop-shadow(0 0 15px #00ff00); transform: scale(1.05); }
 
-  /* --- EKİP KARTLARI (SADECE RESİM İÇİN DÜZENLENDİ) --- */
-  .team-container {
+  /* --- ETKİNLİK GALERİSİ --- */
+  .gallery-container {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
     padding: 20px;
   }
 
-  .team-card {
+  .event-card {
     background: rgba(0, 20, 0, 0.8);
     border: 1px solid #00ff00;
-    border-radius: 10px;
-    padding: 30px 20px;
+    border-radius: 8px;
+    padding: 10px;
     text-align: center;
     box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
     transition: 0.4s;
-    position: relative;
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
-  .team-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
+  .event-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
     border-color: #fff;
   }
 
-  .team-card img {
-    width: 180px;
-    height: 180px;
+  .event-card img {
+    width: 100%;
+    height: 250px;
     object-fit: cover;
-    border-radius: 50%;
-    border: 3px dashed #00ff00;
+    border-radius: 4px;
+    border: 1px solid #00ff00;
     transition: 0.4s;
-    filter: grayscale(100%); 
+    filter: brightness(0.8);
   }
 
-  .team-card:hover img {
-    filter: grayscale(0%); 
-    border: 3px solid #fff;
-    box-shadow: 0 0 20px #00ff00;
-  }
-
-  .team-card::after {
-    content: "";
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; height: 5px;
-    background: #00ff00;
-    transform: scaleX(0);
-    transition: 0.4s;
-  }
-  .team-card:hover::after {
-    transform: scaleX(1);
+  .event-card:hover img {
+    filter: brightness(1.1);
+    border-color: #fff;
   }
 
   .btn-geri {
     display: inline-block;
-    margin-top: 40px;
-    padding: 10px 20px;
+    margin-top: 50px;
+    padding: 12px 25px;
     background: transparent;
     color: #00ff00;
     border: 1px solid #00ff00;
     text-decoration: none;
     transition: 0.3s;
     border-radius: 5px;
+    font-weight: bold;
   }
   .btn-geri:hover {
     background: #00ff00; color: black; box-shadow: 0 0 15px #00ff00;
@@ -137,7 +120,7 @@
   
   .page-title {
     text-align: center;
-    font-size: 3rem;
+    font-size: 2.8rem;
     text-shadow: 0 0 15px #00ff00;
     margin-bottom: 50px;
     border-bottom: 2px dashed #00ff00;
@@ -160,7 +143,7 @@
     <div class="dropdown-content">
       <a href="biz_kimiz.html">> Biz Kimiz?</a>
       <a href="#">> Vizyonumuz</a>
-      <a href="ekibimiz.html">> Ekibimiz</a>
+      <a href="ekibimiz.html">> Etkinliklerimiz</a>
     </div>
   </div>
 </div>
@@ -168,21 +151,19 @@
 <section>
   <div class="container" style="position: relative; z-index: 1; text-align: center;">
     
-    <h1 class="page-title">>_ CYBER ATU YÖNETİM PROTOKOLÜ</h1>
+    <h1 class="page-title">>_ ETKİNLİKLERİMİZDEN GÖRÜNTÜLER</h1>
     
-    <div class="team-container">
+    <div class="gallery-container">
       
-      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.15.jpeg" alt="Ekip Üyesi"></div>
-      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.16.jpeg" alt="Ekip Üyesi"></div>
-      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.21 (1).jpeg" alt="Ekip Üyesi"></div>
-      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.21 (2).jpeg" alt="Ekip Üyesi"></div>
-      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.21.jpeg" alt="Ekip Üyesi"></div>
-      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.22 (1).jpeg" alt="Ekip Üyesi"></div>
-      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.53.22.jpeg" alt="Ekip Üyesi"></div>
-      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.55.22.jpeg" alt="Ekip Üyesi"></div>
-      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.55.54.jpeg" alt="Ekip Üyesi"></div>
-      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.59.08.jpeg" alt="Ekip Üyesi"></div>
-      <div class="team-card"><img src="WhatsApp Image 2026-05-12 at 01.59.10.jpeg" alt="Ekip Üyesi"></div>
+      <div class="event-card"><img src="1.jpeg" alt="Etkinlik 1"></div>
+      <div class="event-card"><img src="2.jpeg" alt="Etkinlik 2"></div>
+      <div class="event-card"><img src="3.jpeg" alt="Etkinlik 3"></div>
+      <div class="event-card"><img src="4.jpeg" alt="Etkinlik 4"></div>
+      <div class="event-card"><img src="5.jpeg" alt="Etkinlik 5"></div>
+      <div class="event-card"><img src="6.jpeg" alt="Etkinlik 6"></div>
+      <div class="event-card"><img src="7.jpeg" alt="Etkinlik 7"></div>
+      <div class="event-card"><img src="8.jpeg" alt="Etkinlik 8"></div>
+      <div class="event-card"><img src="9.jpeg" alt="Etkinlik 9"></div>
 
     </div>
 
